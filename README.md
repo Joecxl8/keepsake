@@ -7,14 +7,12 @@
 - **Countdown & Hero Tracker:** Instantly view how many days are left until your next important milestone.
 - **Redemption Score & Streak:** Earn points for planning ahead and keeping your streak alive.
 - **Panic Alert System:** Highlights urgent events happening today or tomorrow so you can act quickly.
-- **Secure AI Integration:** Uses Netlify Serverless Functions to securely query Google's Gemini 1.5 Flash model for custom gift ideas and WhatsApp greeting drafts without exposing API keys to the browser.
+- **Secure AI Integration:**Uses Vercel Serverless Functions (/api/gemini) to securely query Google's Gemini 1.5 Flash model for custom gift ideas and WhatsApp greeting drafts without exposing API keys to the browser..
 - **Zero Framework Bloat:** Built with plain HTML, Tailwind CSS, and vanilla JavaScript.
 
 ## Project Structure
 
-```text
 keepsake-app/
 ├── index.html
-└── netlify/
-    └── functions/
-        └── gemini.js
+└── api/
+    └── gemini.js
