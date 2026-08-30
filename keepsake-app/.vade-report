@@ -1,0 +1,47 @@
+# Vercel Web Analytics Implementation
+
+Successfully installed and configured Vercel Web Analytics for the Keepsake application following the latest official documentation from Vercel.
+
+## Changes Made
+
+### 1. Package Installation
+- Installed `@vercel/analytics` version 2.0.1
+- Updated `package.json` to include the new dependency
+- Generated `package-lock.json` for consistent dependency resolution
+
+### 2. Analytics Integration (index.html)
+- Added Vercel Analytics script initialization in the `<head>` section
+- Implemented the analytics tracking code following the plain HTML approach from the official documentation
+- Scripts added:
+  - `window.va` initialization function for analytics queue
+  - Deferred loading of `/_vercel/insights/script.js` for optimal performance
+
+## Implementation Details
+
+Since this is a plain HTML/JavaScript project (not using React, Next.js, Vue, or other frameworks), I followed the HTML-specific instructions from the Vercel documentation:
+
+1. Added the analytics initialization script that creates the `window.va` function and queue
+2. Added a deferred script tag that loads the Vercel Insights script from `/_vercel/insights/script.js`
+
+The script is placed early in the `<head>` section, right after the page title and before other scripts, to ensure analytics tracking begins as soon as possible without blocking page rendering (thanks to the `defer` attribute).
+
+## Files Modified
+
+- **index.html**: Added Vercel Analytics script tags in the `<head>` section
+- **package.json**: Added `@vercel/analytics` dependency
+- **package-lock.json**: Generated/updated with new dependency information (should be staged)
+
+## Next Steps
+
+After deployment to Vercel:
+1. Enable Web Analytics in the Vercel dashboard (Analytics → Enable)
+2. Deploy the application to activate the analytics tracking
+3. Verify analytics data collection in the browser's Network tab (look for `/_vercel/insights/` requests)
+4. View analytics data in the Vercel dashboard after user visits
+
+## Technical Notes
+
+- The analytics script uses deferred loading to avoid blocking page rendering
+- The `window.va` queue pattern ensures no analytics events are lost even if the main script hasn't loaded yet
+- The implementation follows Vercel's latest quickstart documentation retrieved on August 30, 2026
+- No changes to existing functionality - this is a purely additive enhancement

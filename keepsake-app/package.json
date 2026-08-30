@@ -2,5 +2,7 @@
   "name": "keepsake",
   "version": "1.0.0",
   "type": "module",
-  "dependencies": {}
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
 }
