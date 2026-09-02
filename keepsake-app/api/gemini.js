@@ -27,15 +27,15 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      return res.status(response.status).json({ 
-        error: data.error?.message || 'Google API error',
-        details: data 
+      return res.status(response.status).json({
+        error: data.error?.message || 'Google API call failed',
+        details: data
       });
     }
 
     const outputText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!outputText) {
-      return res.status(500).json({ error: 'Empty output from model' });
+      return res.status(500).json({ error: 'No text returned from Gemini' });
     }
 
     return res.status(200).json({ text: outputText });
