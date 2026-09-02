@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keepsake — Ormappetti</title>
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0A1C16">
+<meta name="theme-color" content="#071510">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +32,8 @@
   h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
 
   .kasavu-border {
-    height: 10px;
-    background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='10' fill='%23F4F1E1'/%3E%3Crect x='10' width='20' height='10' fill='%23D4AF37'/%3E%3C/svg%3E");
+    height: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='8' fill='%23F4F1E1'/%3E%3Crect x='10' width='20' height='8' fill='%23D4AF37'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
   }
 
@@ -108,7 +108,7 @@
       </button>
     </div>
   </div>
-  <div class="kasavu-border h-[4px] w-full shadow-md"></div>
+  <div class="kasavu-border w-full"></div>
 </nav>
 
 <div id="checklistModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
@@ -116,13 +116,12 @@
     <div class="flex justify-between items-center mb-4 border-b border-[#1B382D] pb-3">
       <div>
         <h3 class="serif text-xl text-[#F4F1E1]">Sadhya & Festival Prep</h3>
-        <p class="text-xs text-[#95AFA5]">Traditional essentials so nothing gets missed.</p>
+        <p class="text-xs text-[#95AFA5]">Traditional essentials checklist.</p>
       </div>
       <button onclick="toggleChecklistModal()" class="text-[#95AFA5] hover:text-[#F4F1E1] text-lg font-bold">✕</button>
     </div>
     
-    <div id="checklistItems" class="space-y-2.5 max-h-72 overflow-y-auto pr-2 text-sm text-[#F4F1E1]">
-      </div>
+    <div id="checklistItems" class="space-y-2.5 max-h-72 overflow-y-auto pr-2 text-sm text-[#F4F1E1]"></div>
 
     <div class="mt-5 pt-3 border-t border-[#1B382D] flex justify-between items-center">
       <button onclick="resetChecklist()" class="text-xs text-[#E05252] hover:underline">Reset Checklist</button>
@@ -139,10 +138,10 @@
     </div>
     <div class="space-y-3.5 text-sm text-[#95AFA5] leading-relaxed">
       <p>
-        Keepsake (<span class="serif italic text-[#D4AF37]">Ormappetti</span>) was created to take the panic out of special dates—combining countdowns, Malayalam star birthdays, and culturally grounded gift ideas with zero clutter.
+        Keepsake (<span class="serif italic text-[#D4AF37]">Ormappetti</span>) keeps you ahead of special dates, birthdays, and Kerala celebrations without last-minute panic.
       </p>
       <p>
-        Built by <span class="text-[#F4F1E1] font-semibold">Joe Manu Thomas</span> with HTML, Tailwind CSS, vanilla JavaScript, and Vercel serverless integration.
+        Created by <span class="text-[#F4F1E1] font-semibold">Joe Manu Thomas</span>.
       </p>
     </div>
     <div class="mt-6 flex justify-end">
@@ -317,7 +316,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Storage Constants
 const STORAGE_ENTRIES = 'keepsake_user_entries';
 const STORAGE_SCORE = 'keepsake_user_score';
 const STORAGE_STREAK = 'keepsake_user_streak';
@@ -333,7 +331,6 @@ let currentKind = 'date';
 let currentFilter = 'all';
 let editingId = null;
 
-// Default Sadhya / Festive Checklist Items
 const DEFAULT_CHECKLIST = [
   { id: 'c1', text: 'Fresh Mullapoo (Jasmine Flowers) for morning', done: false },
   { id: 'c2', text: 'Clean Plantain Banana Leaves (Thalavazha)', done: false },
@@ -346,7 +343,6 @@ const DEFAULT_CHECKLIST = [
 
 let checklist = JSON.parse(localStorage.getItem(STORAGE_CHECKLIST) || JSON.stringify(DEFAULT_CHECKLIST));
 
-// Full Kerala Calendar Dataset
 const KERALA_FESTIVALS = [
   { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala Kasavu Mundu / Saree attire day", budget: "1500" },
   { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, hanging stars, family dinner hamper", budget: "4000" },
@@ -421,7 +417,6 @@ function importData(event) {
   reader.readAsText(file);
 }
 
-// Checklist Functions
 function toggleChecklistModal() {
   const modal = document.getElementById('checklistModal');
   modal.classList.toggle('hidden');
@@ -553,16 +548,13 @@ function openFamilyGroupBroadcast(id) {
   openWhatsAppShare(msg);
 }
 
-// AI Message Drafting with selectable tone
 async function generateToneWish(id) {
   const e = entries.find(x => x.id === id);
   const tone = document.getElementById(`tone-select-${id}`).value;
   const target = document.getElementById(`msg-text-${id}`);
   target.innerHTML = `<span class="italic text-[#95AFA5] animate-pulse">✨ Drafting in ${tone} tone...</span>`;
 
-  const prompt = `Write a short WhatsApp greeting from a Malayali family member to ${e.name} (${e.relation}) celebrating their ${e.type}.
-  Tone style: "${tone}" (Respectful=formal & blessings, Casual=warm Malayalam English mix, Teasing=playful humor).
-  Context notes: "${e.notes || ''}". Return only the final greeting message.`;
+  const prompt = `Write a short WhatsApp greeting from a Malayali family member to ${e.name} (${e.relation}) celebrating their ${e.type}. Tone style: "${tone}". Context notes: "${e.notes || ''}". Return only the final greeting text.`;
 
   try {
     const res = await fetch('/api/gemini', {
@@ -577,7 +569,6 @@ async function generateToneWish(id) {
     }
   } catch {}
 
-  // Fallbacks
   if (tone === "Respectful") {
     target.textContent = `Wishing you a truly blessed and happy ${e.type}, ${e.name}! May God shower good health, happiness, and peace in the year ahead. 🙏`;
   } else if (tone === "Teasing") {
@@ -611,12 +602,16 @@ async function triggerAIGifts(id) {
     const data = await res.json();
     if (data?.text) {
       const items = data.text.split('\n').filter(line => line.trim().length > 0).slice(0, 3);
-      list.innerHTML = items.map(i => `<li class="text-xs text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
+      list.innerHTML = items.map(i => `
+        <li class="text-xs text-[#F4F1E1] flex items-start gap-2 leading-relaxed mb-2.5">
+          <span class="text-[#D4AF37] mt-0.5 select-none shrink-0">✦</span>
+          <span>${i.replace(/^[\*\-\d\.]+\s*/, '')}</span>
+        </li>
+      `).join('');
       return;
     }
   } catch {}
 
-  // Cultural Fallback Engine
   const nameLower = e.name.toLowerCase();
   let fallback = [
     "Handcrafted brass Nilavilakku or Kerala mural piece.",
@@ -625,18 +620,43 @@ async function triggerAIGifts(id) {
   ];
 
   if (nameLower.includes('christmas')) {
-    fallback = ["Rich plum cake box paired with assorted dried fruits.", "Traditional hanging paper Christmas star and festive fairy lights.", "Custom hamper with wine, homemade cookies, and plum pudding."];
+    fallback = [
+      "Rich plum cake box paired with assorted dried fruits.",
+      "Traditional hanging paper Christmas star and festive fairy lights.",
+      "Custom hamper with wine, homemade cookies, and plum pudding."
+    ];
   } else if (nameLower.includes('onam')) {
-    fallback = ["Authentic Balaramapuram handloom Set Mundu or Kasavu saree.", "Pre-booked Grand Onasadhya feast for the entire household.", "Handcrafted brass Nilavilakku or miniature Aranmula Kannadi."];
+    fallback = [
+      "Authentic Balaramapuram handloom Set Mundu or Kasavu saree.",
+      "Pre-booked Grand Onasadhya feast for the entire household.",
+      "Handcrafted brass Nilavilakku or miniature Aranmula Kannadi."
+    ];
   } else if (nameLower.includes('vishu')) {
-    fallback = ["Traditional brass Uruli or Bell-metal mirror for Vishukani.", "Fresh crisp currency notes ready in envelopes for Vishukkaineettam.", "Assorted authentic Palada and Parippu Payasam hamper."];
+    fallback = [
+      "Traditional brass Uruli or Bell-metal mirror for Vishukani.",
+      "Fresh crisp currency notes ready in envelopes for Vishukkaineettam.",
+      "Assorted authentic Palada and Parippu Payasam hamper."
+    ];
   } else if (nameLower.includes('eid')) {
-    fallback = ["Premium imported dates, dry fruits, and gourmet Halwa hamper.", "Fine traditional Kurta or embroidered festive attire.", "Handcrafted Attar (perfume) and premium sweet gift box."];
+    fallback = [
+      "Premium imported dates, dry fruits, and gourmet Halwa hamper.",
+      "Fine traditional Kurta or embroidered festive attire.",
+      "Handcrafted Attar (perfume) and premium sweet gift box."
+    ];
   } else if (nameLower.includes('easter')) {
-    fallback = ["Gourmet Easter eggs, chocolate hampers, and hot cross buns.", "Handcrafted table linens and festive breakfast gift basket.", "Pre-ordered Easter Sunday breakfast feast (Appam, Stew, Roast)."];
+    fallback = [
+      "Gourmet Easter eggs, chocolate hampers, and hot cross buns.",
+      "Handcrafted table linens and festive breakfast gift basket.",
+      "Pre-ordered Easter Sunday breakfast feast (Appam, Stew, Roast)."
+    ];
   }
 
-  list.innerHTML = fallback.map(i => `<li class="text-xs text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i}</li>`).join('');
+  list.innerHTML = fallback.map(i => `
+    <li class="text-xs text-[#F4F1E1] flex items-start gap-2 leading-relaxed mb-2.5">
+      <span class="text-[#D4AF37] mt-0.5 select-none shrink-0">✦</span>
+      <span>${i}</span>
+    </li>
+  `).join('');
 }
 
 function renderPanic(urgentEntries) {
@@ -769,7 +789,7 @@ function render() {
             <p class="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37]">Curated Suggestions</p>
             <button onclick="document.getElementById('ai-ideas-${e.id}').classList.add('hidden')" class="text-xs text-[#95AFA5] hover:text-[#F4F1E1]">✕</button>
           </div>
-          <ul id="ai-list-${e.id}" class="space-y-2"></ul>
+          <ul id="ai-list-${e.id}" class="space-y-1"></ul>
         </div>
       </div>
     `;
@@ -840,7 +860,6 @@ document.getElementById('addForm').addEventListener('submit', (ev) => {
   render();
 });
 
-// Initialization
 document.getElementById('scoreValue').textContent = score;
 document.getElementById('streakValue').textContent = streak;
 updateScore(0);
