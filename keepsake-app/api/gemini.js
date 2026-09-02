@@ -1,28 +1,3 @@
-let activeModel = null;
-
-async function resolveWorkingModel(apiKey) {
-  if (activeModel) return activeModel;
-
-  try {
-    const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-    const listData = await listRes.json();
-    const models = listData.models || [];
-
-    // Prioritize available flash models, then any Gemini model supporting generateContent
-    const matched = models.find(m => m.supportedGenerationMethods?.includes('generateContent') && m.name.includes('flash'))
-                 || models.find(m => m.supportedGenerationMethods?.includes('generateContent') && m.name.includes('gemini'));
-
-    if (matched) {
-      activeModel = matched.name; // e.g. "models/gemini-2.0-flash"
-      return activeModel;
-    }
-  } catch (err) {
-    console.warn('Could not auto-detect model, falling back to gemini-2.0-flash:', err);
-  }
-
-  return 'models/gemini-2.0-flash';
-}
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -39,9 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const model = await resolveWorkingModel(apiKey);
-    const cleanModel = model.startsWith('models/') ? model : `models/${model}`;
-    const url = `https://generativelanguage.googleapis.com/v1beta/${cleanModel}:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -65,7 +38,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'No text returned from model', raw: data });
     }
 
-    return res.status(200).json({ text: outputText, modelUsed: cleanModel });
+    return res.status(200).json({ text: outputText });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
