@@ -34,14 +34,3 @@ The AI gift and greeting features rely on Google's Gemini free-tier API (`gemini
 * **Backend:** Vercel Serverless Functions (Node.js `/api/gemini.js`)
 * **AI Provider:** Google Gemini API (`gemini-3.6-flash`)
 * **Live Deployment:** [keepsakekerala.vercel.app](https://keepsakekerala.vercel.app)
-
-## Structure
-keepsake/
-├── keepsake-app/
-│   ├── index.html      ← Replace with downloaded file
-│   ├── sw.js           ← Replace with downloaded file
-│   ├── manifest.json   ← Replace with downloaded file
-│   ├── package.json    ← Replace with downloaded file
-│   └── api/
-│       └── gemini.js   ← Replace with downloaded file
-└── README.md
