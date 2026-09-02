@@ -1,4 +1,13 @@
 export default async function handler(req, res) {
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -9,38 +18,43 @@ export default async function handler(req, res) {
   }
 
   const { prompt } = req.body;
-  if (!prompt) {
-    return res.status(400).json({ error: 'Prompt is required' });
+  if (!prompt || typeof prompt !== 'string' || prompt.length > 2000) {
+    return res.status(400).json({ error: 'Prompt is required and must be under 2000 characters' });
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+  // FIX: Use correct Gemini model name
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
-  // Helper to attempt API call
-  async function callGemini() {
-    return await fetch(url, {
+  async function callGemini(attempt = 1) {
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 512
+        }
       })
     });
+
+    // Retry on 503 or 429, up to 2 attempts
+    if ((response.status === 503 || response.status === 429) && attempt < 2) {
+      await new Promise(resolve => setTimeout(resolve, 1500 * attempt));
+      return callGemini(attempt + 1);
+    }
+
+    return response;
   }
 
   try {
-    let response = await callGemini();
-
-    // If Google returns 503 (High Demand) or 429, wait 1.2s and retry once
-    if (response.status === 503 || response.status === 429) {
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      response = await callGemini();
-    }
-
+    const response = await callGemini();
     const data = await response.json();
 
     if (!response.ok) {
       return res.status(response.status).json({
         error: data.error?.message || 'Google service temporarily unavailable',
-        details: data
+        code: response.status
       });
     }
 
