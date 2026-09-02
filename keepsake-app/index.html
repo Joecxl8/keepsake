@@ -125,7 +125,7 @@
   </div>
 </div>
 
-<!-- Mobile Quick Add FAB -->
+<!-- Mobile Quick Add Floating Action Button -->
 <button onclick="scrollToForm()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-[#D4AF37] text-[#0A1C16] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl font-bold border border-[#F9E596]/40 active:scale-95 transition-transform" title="Add Event">
   +
 </button>
@@ -501,24 +501,77 @@ async function triggerAIGifts(id) {
   
   if (aiText) {
     const items = aiText.split('\n').filter(line => line.trim().length > 0).slice(0, 3);
-    list.innerHTML = items.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-snug">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
+    list.innerHTML = items.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
     return;
   }
 
-  let fallback = [
-    "Handcrafted brass Nilavilakku or Kerala wall mural piece.",
-    "Assorted traditional bakery hamper (Halwa, Banana chips, Achappam).",
-    "Weekend getaway experience or curated private dinner."
-  ];
-  if (e.name.toLowerCase().includes('christmas')) {
-    fallback = ["Premium Kerala plum cake with dried fruit box.", "Artisan hanging paper star with brass bells.", "Curated festive dinner box for family."];
-  } else if (e.name.toLowerCase().includes('onam')) {
-    fallback = ["Authentic Balaramapuram handloom Set Mundu or Kasavu saree.", "Pre-booked traditional Grand Sadhya feast for the household.", "Handcrafted Aranmula Kannadi souvenir."];
-  } else if (e.name.toLowerCase().includes('vishu')) {
-    fallback = ["Traditional brass Uruli for Vishukani display.", "Fresh crisp currency notes ready for Vishukkaineettam packets.", "Assorted Kerala Payasam hamper."];
+  // Tailored Kerala Festival Fallback Map
+  const nameLower = e.name.toLowerCase();
+  let fallback = [];
+
+  if (nameLower.includes('christmas')) {
+    fallback = [
+      "Rich plum cake box paired with assorted dried fruits.",
+      "Traditional hanging paper Christmas star and festive fairy lights.",
+      "Custom hamper with wine, homemade cookies, and plum pudding."
+    ];
+  } else if (nameLower.includes('onam')) {
+    fallback = [
+      "Authentic Balaramapuram handloom Set Mundu or Kasavu saree.",
+      "Pre-booked Grand Onasadhya feast for the entire household.",
+      "Handcrafted brass Nilavilakku or miniature Aranmula Kannadi."
+    ];
+  } else if (nameLower.includes('vishu')) {
+    fallback = [
+      "Traditional brass Uruli or Bell-metal mirror for Vishukani.",
+      "Fresh crisp currency notes ready in envelopes for Vishukkaineettam.",
+      "Assorted authentic Palada and Parippu Payasam hamper."
+    ];
+  } else if (nameLower.includes('eid')) {
+    fallback = [
+      "Premium imported dates, dry fruits, and gourmet Halwa hamper.",
+      "Fine traditional Kurta or embroidered festive attire.",
+      "Handcrafted Attar (perfume) and premium sweet gift box."
+    ];
+  } else if (nameLower.includes('easter')) {
+    fallback = [
+      "Gourmet Easter eggs, chocolate hampers, and hot cross buns.",
+      "Handcrafted table linens and festive breakfast gift basket.",
+      "Pre-ordered Easter Sunday breakfast feast (Appam, Stew, Roast)."
+    ];
+  } else if (nameLower.includes('attukal') || nameLower.includes('pongala')) {
+    fallback = [
+      "Traditional unglazed terracotta earthen pot and ladle set.",
+      "Organic Marayoor jaggery, pure ghee, and pachari combo kit.",
+      "Set of Kerala cotton mundu or towel essentials for Pongala day."
+    ];
+  } else if (nameLower.includes('shivaratri')) {
+    fallback = [
+      "Pooja brassware kit with Bilva leaf thali and camphor lamp.",
+      "Fresh fruit and fasting essentials basket (tender coconut, dry fruits).",
+      "Traditional Rudraksha mala or sacred brass bell."
+    ];
+  } else if (nameLower.includes('pooram')) {
+    fallback = [
+      "Souvenir miniature Pooram caparison (Nettipattam) wall hanging.",
+      "Traditional handloom Kurta or cotton dhoti suitable for the temple crowd.",
+      "High-fidelity festival recording / traditional Chenda Melam memorabilia."
+    ];
+  } else if (nameLower.includes('piravi')) {
+    fallback = [
+      "Authentic Kerala Kasavu Neriyathu or double Mundu.",
+      "Collection of classic Malayalam literature or poetry books.",
+      "Traditional Kathakali wood-carved wall mask or mural artifact."
+    ];
+  } else {
+    fallback = [
+      "Handcrafted brass Nilavilakku or Kerala mural piece.",
+      "Assorted traditional bakery hamper (Halwa, Banana chips, Achappam).",
+      "Curated dining experience or weekend resort getaway."
+    ];
   }
 
-  list.innerHTML = fallback.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-snug">${i}</li>`).join('');
+  list.innerHTML = fallback.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i}</li>`).join('');
 }
 
 function renderPanic(urgentEntries) {
