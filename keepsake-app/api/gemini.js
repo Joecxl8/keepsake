@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY missing' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY is not set in Vercel environment variables' });
   }
 
   const { prompt } = req.body;
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -26,23 +26,20 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // Log the raw Google response in Vercel logs for troubleshooting
     if (!response.ok) {
-      console.error('Gemini API Error:', JSON.stringify(data));
-      return res.status(response.status).json({ error: data.error?.message || 'Gemini error' });
+      return res.status(response.status).json({ 
+        error: data.error?.message || 'Google API returned an error',
+        details: data 
+      });
     }
 
-    // Correct nested path extraction for Google Gemini REST API
-    const generatedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!generatedText) {
-      console.error('No text in candidates:', JSON.stringify(data));
-      return res.status(500).json({ error: 'Model returned no text', raw: data });
+    const outputText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!outputText) {
+      return res.status(500).json({ error: 'Empty output from model', raw: data });
     }
 
-    return res.status(200).json({ text: generatedText });
+    return res.status(200).json({ text: outputText });
   } catch (err) {
-    console.error('Server Handler Crash:', err);
     return res.status(500).json({ error: err.message });
   }
 }
