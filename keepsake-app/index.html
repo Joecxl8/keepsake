@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Keepsake — Never Miss a Date</title>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0A1C16">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,9 +29,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, .serif {
-    font-family: 'Fraunces', serif;
-  }
+  h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
 
   .kasavu-border {
     height: 12px;
@@ -63,16 +63,6 @@
 
   .fade-in { animation: fadeIn 0.3s ease-in-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .shimmer {
-    background: linear-gradient(90deg, #D4AF37 0%, #F9E596 50%, #D4AF37 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 2s infinite linear;
-  }
-  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
   #addForm { scroll-margin-top: 120px; }
 </style>
 </head>
@@ -91,14 +81,15 @@
         <h1 class="text-2xl font-medium tracking-tight text-[#F4F1E1] leading-none">Keepsake</h1>
       </div>
     </div>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
+      <button onclick="syncKeralaPack()" class="text-xs bg-[#1a382d] text-[#D4AF37] hover:bg-[#2A4A3F] border border-[#D4AF37]/40 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
+        🌴 Add Kerala Festivals
+      </button>
       <button onclick="toggleAboutModal()" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] transition-colors border border-[#1E3A2F] px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM118,96a12,12,0,1,1,12-12A12,12,0,0,1,118,96Z"></path></svg>
-        About Us
+        About
       </button>
       <div class="text-right hidden sm:block">
         <p class="serif italic text-[#D4AF37] text-sm tracking-wide">Ormappetti</p>
-        <p class="text-xs text-[#A3B8B0]">For the Malayali who means well.</p>
       </div>
     </div>
   </div>
@@ -120,7 +111,7 @@
         Created by <span class="text-[#F4F1E1] font-semibold">Joe Manu Thomas</span>, Keepsake combines dynamic countdowns, gamified redemption scores, and localized AI gift suggestions with zero clutter.
       </p>
       <p class="text-xs pt-2 border-t border-[#1E3A2F]">
-        Built with HTML, Tailwind CSS, and vanilla JavaScript, backed securely by Vercel serverless functions and Gemini AI.
+        PWA Enabled · Works Offline · Vercel Serverless Architecture.
       </p>
     </div>
     <div class="mt-6 flex justify-end">
@@ -129,13 +120,12 @@
   </div>
 </div>
 
-<!-- Main Page Container with Explicit Top Clearance -->
 <div class="max-w-7xl mx-auto px-5 pt-32 lg:pt-36 flex flex-col lg:flex-row gap-8 items-start">
   
   <!-- Left Column -->
   <aside class="w-full lg:w-1/3 flex flex-col gap-6 lg:sticky lg:top-28 z-10">
     
-    <!-- Husband / Redemption Score Card -->
+    <!-- Redemption Score Card -->
     <div class="glass-card p-5 relative overflow-hidden flex items-center justify-between">
       <div class="absolute -right-6 -top-6 w-32 h-32 bg-[#D4AF37] opacity-5 rounded-full pointer-events-none"></div>
       <div>
@@ -155,7 +145,7 @@
       </div>
     </div>
 
-    <!-- Countdown Header -->
+    <!-- Countdown Hero -->
     <div class="glass-card p-6 flex items-center gap-5 border-t-4 border-t-[#D4AF37]" id="hero">
       <div class="shrink-0 w-20 h-20 rounded-full border border-[#D4AF37] bg-[#1a382d] flex flex-col items-center justify-center shadow-lg">
         <span class="serif text-3xl font-bold text-[#D4AF37] leading-none" id="heroNum">—</span>
@@ -176,8 +166,8 @@
       </div>
 
       <div class="mb-5">
-        <label id="fNameLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Name</label>
-        <input id="fName" type="text" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. Meera" />
+        <label id="fNameLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Name / Festival</label>
+        <input id="fName" type="text" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. Meera or Vishu" />
       </div>
 
       <div id="dateOnlyFields" class="grid grid-cols-2 gap-4 mb-5">
@@ -192,6 +182,7 @@
             <option value="Daughter">Daughter</option>
             <option value="Sibling">Sibling</option>
             <option value="Friend">Friend</option>
+            <option value="Festival">Festival / Holiday</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -200,8 +191,7 @@
           <select id="fType" class="w-full rounded-lg px-4 py-3 text-sm">
             <option value="Birthday">Birthday</option>
             <option value="Anniversary">Anniversary</option>
-            <option value="Onam">Onam</option>
-            <option value="Vishu">Vishu</option>
+            <option value="Festival">Festival</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -212,63 +202,54 @@
           <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Date</label>
           <input id="fDate" type="date" class="w-full rounded-lg px-4 py-3 text-sm" />
         </div>
-        <div id="timeField" class="hidden">
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Time</label>
-          <input id="fTime" type="time" class="w-full rounded-lg px-4 py-3 text-sm" />
+        <div>
+          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Gift Budget (₹)</label>
+          <input id="fBudget" type="number" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. 2000" />
         </div>
       </div>
 
       <p id="fError" class="hidden text-[#D94848] text-xs mb-4 p-2 bg-[#2A1616] border border-[#D94848] rounded">Please fill in the name and date.</p>
 
       <div class="mb-6">
-        <label id="fNotesLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Notes (gift ideas, sizes, etc.)</label>
-        <textarea id="fNotes" class="w-full rounded-lg px-4 py-3 text-sm h-20 resize-none" placeholder="e.g. Kasavu saree, Mullapoo, ring size 6"></textarea>
+        <label id="fNotesLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Gift Registry / Sizes / Notes</label>
+        <textarea id="fNotes" class="w-full rounded-lg px-4 py-3 text-sm h-20 resize-none" placeholder="e.g. Kasavu saree, Mullapoo, shirt size 40, ring size 6"></textarea>
       </div>
 
-      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#0A1C16] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
+      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#0A1C16] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 hover:shadow-xl">
         Save to Keepsake
       </button>
       <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="hidden w-full mt-3 py-2.5 text-sm font-semibold text-[#A3B8B0] hover:text-[#F4F1E1] bg-[#1E3A2F]/40 hover:bg-[#1E3A2F] rounded-lg transition-all">Cancel Editing</button>
     </form>
-    
-    <footer class="hidden lg:block text-center mt-4">
-      <p class="text-[#A3B8B0] text-[10px] uppercase tracking-widest">© 2026 Keepsake</p>
-      <p class="text-[#A3B8B0] text-xs mt-1 italic serif">Made in Kerala. Don't forget the flowers.</p>
-    </footer>
   </aside>
 
   <!-- Right Column -->
   <main class="w-full lg:w-2/3 flex flex-col gap-6">
-    
-    <!-- Panic Alert -->
     <div id="panicZone" class="empty:hidden"></div>
 
-    <!-- Category Tabs -->
     <div class="grid grid-cols-3 gap-2 p-1.5 glass-card rounded-xl">
-      <button id="tabAll" onclick="setFilter('all')" class="text-center py-2.5 text-sm font-semibold rounded-lg transition-all shadow-sm bg-[#D4AF37] text-[#0A1C16]">All Events</button>
-      <button id="tabDates" onclick="setFilter('date')" class="text-center py-2.5 text-sm font-semibold rounded-lg transition-all text-[#A3B8B0] hover:text-[#F4F1E1] hover:bg-[#1E3A2F]/50">Special Dates</button>
-      <button id="tabReminders" onclick="setFilter('reminder')" class="text-center py-2.5 text-sm font-semibold rounded-lg transition-all text-[#A3B8B0] hover:text-[#F4F1E1] hover:bg-[#1E3A2F]/50">Reminders</button>
+      <button id="tabAll" onclick="setFilter('all')" class="text-center py-2.5 text-sm font-semibold rounded-lg bg-[#D4AF37] text-[#0A1C16]">All Events</button>
+      <button id="tabDates" onclick="setFilter('date')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]">Special Dates</button>
+      <button id="tabReminders" onclick="setFilter('reminder')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]">Reminders</button>
     </div>
     
-    <!-- Events Grid -->
     <div id="list" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 min-h-[200px]"></div>
-
-    <footer class="block lg:hidden text-center border-t border-[#1E3A2F] pt-6 mt-8">
-      <p class="text-[#A3B8B0] text-[10px] uppercase tracking-widest">© 2026 Keepsake</p>
-      <p class="text-[#A3B8B0] text-xs mt-2 italic serif">Made in Kerala. Don't forget the flowers.</p>
-    </footer>
-
   </main>
 </div>
 
 <script>
-// --- LOCAL STORAGE KEYS ---
+// Service Worker Registration for PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg failed: ', err));
+  });
+}
+
+// Storage Keys
 const STORAGE_ENTRIES = 'keepsake_user_entries';
 const STORAGE_SCORE = 'keepsake_user_score';
 const STORAGE_STREAK = 'keepsake_user_streak';
 const STORAGE_HANDLED = 'keepsake_handled_ids';
 
-// --- STATE MANAGEMENT ---
 let entries = JSON.parse(localStorage.getItem(STORAGE_ENTRIES) || '[]');
 let score = parseInt(localStorage.getItem(STORAGE_SCORE) || '0', 10);
 let streak = parseInt(localStorage.getItem(STORAGE_STREAK) || '0', 10);
@@ -278,6 +259,27 @@ let currentKind = 'date';
 let currentFilter = 'all';
 let editingId = null;
 
+// Kerala Festival Dataset
+const KERALA_FESTIVALS = [
+  { name: "Vishu", relation: "Festival", type: "Festival", date: "2027-04-14", notes: "Vishukkaineettam, Kani preparation, Sadhya essentials", budget: "3000" },
+  { name: "Thiruvonam (Onam)", relation: "Festival", type: "Festival", date: "2027-08-28", notes: "Ona-kodi clothes, Pookkalam flowers, Payasam ingredients", budget: "5000" },
+  { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala Kasavu attire day", budget: "1000" },
+  { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, Christmas star, family gift hampers", budget: "4000" }
+];
+
+function syncKeralaPack() {
+  let addedCount = 0;
+  KERALA_FESTIVALS.forEach(f => {
+    if (!entries.some(e => e.name.toLowerCase() === f.name.toLowerCase())) {
+      entries.push({ id: 'fest-' + Date.now() + Math.random(), kind: 'date', ...f });
+      addedCount++;
+    }
+  });
+  saveAllToStorage();
+  render();
+  alert(addedCount > 0 ? `Added ${addedCount} Kerala festival dates to your Keepsake!` : "All Kerala festivals are already in your list!");
+}
+
 function saveAllToStorage() {
   localStorage.setItem(STORAGE_ENTRIES, JSON.stringify(entries));
   localStorage.setItem(STORAGE_SCORE, score.toString());
@@ -285,74 +287,46 @@ function saveAllToStorage() {
   localStorage.setItem(STORAGE_HANDLED, JSON.stringify(rememberedIds));
 }
 
-// --- MODALS ---
 function toggleAboutModal() {
-  const modal = document.getElementById('aboutModal');
-  modal.classList.toggle('hidden');
+  document.getElementById('aboutModal').classList.toggle('hidden');
 }
 
-// --- SCORE LOGIC ---
 function updateScore(points) {
-  score += points;
-  if (score < 0) score = 0;
-  
+  score = Math.max(0, score + points);
   document.getElementById('scoreValue').textContent = score;
-  
-  let tier = "Sleeping on Sofa";
-  let tierColor = "#D94848";
-  let tierBg = "#2A1616";
-  
-  if (score >= 300) {
-    tier = "Mahabali Level";
-    tierColor = "#D4AF37"; tierBg = "#1a382d";
-  } else if (score >= 100) {
-    tier = "Good Husband";
-    tierColor = "#F9E596"; tierBg = "#1a382d";
-  } else if (score >= 50) {
-    tier = "Just Escaped";
-    tierColor = "#A3B8B0"; tierBg = "#122921";
-  }
+  let tier = "Sleeping on Sofa", tierColor = "#D94848", tierBg = "#2A1616";
+  if (score >= 300) { tier = "Mahabali Level"; tierColor = "#D4AF37"; tierBg = "#1a382d"; }
+  else if (score >= 100) { tier = "Good Husband"; tierColor = "#F9E596"; tierBg = "#1a382d"; }
+  else if (score >= 50) { tier = "Just Escaped"; tierColor = "#A3B8B0"; tierBg = "#122921"; }
   
   const tierEl = document.getElementById('scoreTier');
-  tierEl.textContent = tier; 
-  tierEl.style.color = tierColor; 
-  tierEl.style.backgroundColor = tierBg; 
+  tierEl.textContent = tier;
+  tierEl.style.color = tierColor;
+  tierEl.style.backgroundColor = tierBg;
   tierEl.style.borderColor = tierColor + '40';
-  
   saveAllToStorage();
 }
 
 function markRemembered(id) {
   if (rememberedIds.includes(id)) return;
   rememberedIds.push(id);
-  
   const e = entries.find(x => x.id === id);
   if (!e) return;
   const days = getDaysUntil(e.date, e.kind === 'date');
-  
-  let points = 10; 
-  if (days >= 7) points = 50; 
-  else if (days >= 2) points = 25; 
-  else if (days === 0 || days === 1) points = -10; 
-  
-  if (points > 0) streak++; else streak = 0;
-  
+  let points = days >= 7 ? 50 : (days >= 2 ? 25 : -10);
+  streak = points > 0 ? streak + 1 : 0;
   document.getElementById('streakValue').textContent = streak;
   updateScore(points);
-  render(); 
+  render();
 }
 
-// --- TAB / KIND CONTROLS ---
 function setKind(kind) {
   currentKind = kind;
   const isDate = kind === 'date';
-  document.getElementById('kindDate').className = isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] hover:bg-[#1E3A2F]/50 text-sm font-semibold rounded-lg transition-all";
-  document.getElementById('kindReminder').className = !isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] hover:bg-[#1E3A2F]/50 text-sm font-semibold rounded-lg transition-all";
+  document.getElementById('kindDate').className = isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
+  document.getElementById('kindReminder').className = !isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
   document.getElementById('dateOnlyFields').classList.toggle('hidden', !isDate);
-  document.getElementById('timeField').classList.toggle('hidden', isDate);
-  document.getElementById('fNameLabel').textContent = isDate ? 'Name' : 'Event / Task';
-  document.getElementById('fName').placeholder = isDate ? 'e.g. Meera' : 'e.g. Car Insurance Renewal';
-  document.getElementById('fNotesLabel').textContent = isDate ? 'Notes (gift ideas, sizes, etc.)' : 'Notes (location, who else is involved)';
+  document.getElementById('fNameLabel').textContent = isDate ? 'Name / Festival' : 'Event / Task';
   document.getElementById('addBtn').textContent = isDate ? 'Save to Keepsake' : 'Save Reminder';
 }
 
@@ -360,8 +334,7 @@ function setFilter(filter) {
   currentFilter = filter;
   ['all', 'date', 'reminder'].forEach((t, i) => {
     const btn = document.getElementById(['tabAll', 'tabDates', 'tabReminders'][i]);
-    if(t === filter) btn.className = "text-center py-2.5 text-sm font-semibold rounded-lg transition-all shadow-sm bg-[#D4AF37] text-[#0A1C16]";
-    else btn.className = "text-center py-2.5 text-sm font-semibold rounded-lg transition-all text-[#A3B8B0] hover:text-[#F4F1E1] hover:bg-[#1E3A2F]/50";
+    btn.className = (t === filter) ? "text-center py-2.5 text-sm font-semibold rounded-lg shadow-sm bg-[#D4AF37] text-[#0A1C16]" : "text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]";
   });
   render();
 }
@@ -377,14 +350,10 @@ function getDaysUntil(dateStr, isYearly) {
   return Math.round((target - t) / 86400000);
 }
 
-function formatDisplayDate(dateStr, time) {
-  const d = new Date(dateStr);
-  let out = d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
-  if (time) out += ` · ${time}`;
-  return out;
+function formatDisplayDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
 }
 
-// --- SECURE BACKEND ROUTED GEMINI AI ---
 async function fetchGeminiAI(prompt) {
   try {
     const res = await fetch('/api/gemini', {
@@ -394,21 +363,17 @@ async function fetchGeminiAI(prompt) {
     });
     const data = await res.json();
     return data?.text || null;
-  } catch(e) {
-    console.error('API Error:', e);
-    return null;
-  }
+  } catch(e) { return null; }
 }
 
 async function triggerAIGifts(id) {
   const e = entries.find(x => x.id === id);
   const box = document.getElementById(`ai-ideas-${id}`);
   const list = document.getElementById(`ai-list-${id}`);
-  
   box.classList.remove('hidden');
-  list.innerHTML = `<li class="text-sm text-[#A3B8B0] italic animate-pulse">✨ Thinking... generating gift ideas...</li>`;
+  list.innerHTML = `<li class="text-sm text-[#A3B8B0] italic animate-pulse">✨ Suggesting gift ideas...</li>`;
   
-  const prompt = `Give 3 creative, thoughtful, culturally rooted Kerala gift ideas for ${e.name} (${e.relation}), for their ${e.type}. Personal details/notes: "${e.notes || 'None'}". Keep each suggestion concise (1-2 sentences), practical for someone living in Kerala, and format as 3 bullet points without extra preamble.`;
+  const prompt = `Give 3 creative, thoughtful Kerala gift ideas for ${e.name} (${e.relation}), for ${e.type}. Budget: ₹${e.budget || 'any'}. Notes: "${e.notes || 'None'}". Keep each concise (1-2 sentences), practical for Kerala, as 3 bullet points without preamble.`;
   const aiText = await fetchGeminiAI(prompt);
   
   if (aiText) {
@@ -416,106 +381,27 @@ async function triggerAIGifts(id) {
     list.innerHTML = items.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-snug">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
     return;
   }
-
-  // Fallback engine
-  let suggestions = [];
-  const notesLower = (e.notes || '').toLowerCase();
-  
-  if (notesLower.includes('saree') || notesLower.includes('kasavu')) {
-    suggestions = ["Pick up a premium Kasavu Saree from Seematti or Jayalakshmi in Kochi.", "Pair the saree with traditional Palakkad-style glass bangles.", "Book a surprise backwater dinner cruise where she can wear it."];
-  } else if (e.relation === 'Amma') {
-    suggestions = ["A beautiful traditional Kerala mural painting for the living room.", "Set up a grand home-cooked Sadhya (you cook or cater it).", "A small gold chain or fresh Mullapoo (jasmine) delivery early morning."];
-  } else if (e.relation === 'Wife' || e.relation === 'Husband') {
-    suggestions = ["A quick 2-day weekend getaway to a resort in Munnar or Vagamon.", "Recreate your first date or book a premium dinner date.", "A handwritten letter alongside their favorite sweet."];
-  } else {
-    suggestions = [`A thoughtful ${e.type} gift tied to their interests.`, "An evening tea party with the family.", "A beautifully framed photo of a cherished memory."];
-  }
-  
-  list.innerHTML = suggestions.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-snug">${i}</li>`).join('');
-}
-
-async function triggerAIMessage(id) {
-  const e = entries.find(x => x.id === id);
-  const msgBox = document.getElementById(`msg-box-${id}`);
-  const msgText = document.getElementById(`msg-text-${id}`);
-  
-  msgBox.classList.remove('hidden');
-  msgText.innerHTML = `<span class="animate-pulse">✨ Drafting message...</span>`;
-  
-  const prompt = `Write a short, heartfelt, warm WhatsApp greeting message from a Kerala family member to ${e.name} (${e.relation}) for their ${e.type}. Context notes: "${e.notes || ''}". Blend English and touch of Manglish warmth naturally. Return only the message text.`;
-  const aiText = await fetchGeminiAI(prompt);
-  
-  if (aiText) {
-    msgText.textContent = aiText.trim();
-    return;
-  }
-
-  // Fallback message
-  let msg = "";
-  if (e.type === "Anniversary") msg = `Happy Anniversary ${e.name}! Every year with you is a true blessing. Can't wait to celebrate our day together. Love you always! ❤️`;
-  else if (e.type === "Birthday" && e.relation === "Amma") msg = `Happy Birthday Amma! Thank you for taking care of us with so much love. Have a wonderful and blessed day! 🙏`;
-  else if (e.type === "Onam") msg = `Happy Onam! May this season bring peace, health, and endless joy to you and our family. 🌸`;
-  else if (e.type === "Vishu") msg = `Happy Vishu! Wishing you a year full of good fortune, prosperity, and happiness. 🌾`;
-  else msg = `Wishing you a wonderful ${e.type}! Hope your day is filled with laughter, happiness, and celebrations. 🎉`;
-  
-  msgText.textContent = msg;
-}
-
-// --- RENDER ---
-function renderPanic(urgentEntries) {
-  const zone = document.getElementById('panicZone');
-  if (urgentEntries.length === 0) { zone.innerHTML = ''; return; }
-
-  const e = urgentEntries[0]; 
-  const isToday = getDaysUntil(e.date, e.kind === 'date') === 0;
-  
-  zone.innerHTML = `
-    <div class="p-6 rounded-xl border border-[#D94848] bg-[#2A1616] fade-in shadow-lg mb-6">
-      <div class="flex items-start gap-4">
-        <div class="text-[#D94848] mt-1 bg-[#4A1616] p-2 rounded-full">
-          <svg width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,104v40a8,8,0,0,0,16,0V104a8,8,0,0,0-16,0Zm20,84a12,12,0,1,1-12-12A12,12,0,0,1,140,188Z"></path></svg>
-        </div>
-        <div class="flex-1">
-          <h3 class="serif text-[#F4F1E1] text-2xl font-semibold mb-1">${e.name} — ${e.type} is ${isToday ? 'Today!' : 'Tomorrow!'}</h3>
-          <p class="text-[#D94848] text-sm mb-4">Don't panic. You still have time to pull off a miracle.</p>
-          
-          <div class="flex flex-wrap gap-3 items-center mt-3">
-            ${!rememberedIds.includes(e.id) ? `<button onclick="markRemembered('${e.id}')" class="px-4 py-2 bg-[#F4F1E1] text-[#0A1C16] text-xs font-bold rounded-lg shadow-sm">Mark Handled</button>` : `<span class="px-4 py-2 border border-[#1E3A2F] text-[#A3B8B0] text-xs font-semibold rounded-lg bg-[#0A1C16]/50">Handled ✓</span>`}
-            <button onclick="triggerAIMessage('${e.id}')" class="px-4 py-2 bg-[#1a382d] border border-[#D4AF37] text-[#D4AF37] text-xs font-bold rounded-lg shadow-sm hover:bg-[#2A4A3F]">✨ Draft AI Message</button>
-            <a href="https://www.google.com/search?q=flowers+cake+delivery+near+me+Kerala" target="_blank" class="px-4 py-2 border border-[#D94848] text-[#F4F1E1] text-xs font-semibold rounded-lg">Order Flowers/Cake</a>
-          </div>
-
-          <div id="msg-box-${e.id}" class="hidden mt-4 p-4 bg-[#1A0E0E] rounded-xl border border-[#3A1E1E]">
-            <p id="msg-text-${e.id}" class="text-sm text-[#A3B8B0] mb-3 italic">...</p>
-            <button onclick="copyToClipboard(document.getElementById('msg-text-${e.id}').textContent, this)" class="text-xs text-[#D4AF37] font-semibold hover:underline">Copy to Clipboard</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  list.innerHTML = `<li class="text-sm text-[#F4F1E1]">✦ Premium Kasavu item or traditional Kerala textile.</li><li class="text-sm text-[#F4F1E1]">✦ Authentic sweet hamper with local delicacies.</li><li class="text-sm text-[#F4F1E1]">✦ Weekend resort getaway or dining experience.</li>`;
 }
 
 function render() {
   const list = document.getElementById('list');
-  
   let visible = entries
     .filter(e => currentFilter === 'all' || e.kind === currentFilter)
     .sort((a, b) => getDaysUntil(a.date, a.kind==='date') - getDaysUntil(b.date, b.kind==='date'));
 
   const allUpcoming = [...entries].filter(e => e.kind === 'date').sort((a, b) => getDaysUntil(a.date, true) - getDaysUntil(b.date, true));
   
-  renderPanic(allUpcoming.filter(e => getDaysUntil(e.date, true) <= 1));
-
   if (allUpcoming.length > 0) {
     document.getElementById('heroNum').textContent = getDaysUntil(allUpcoming[0].date, true);
-    document.getElementById('heroText').innerHTML = `<h2 class="serif text-2xl text-[#F4F1E1] mb-1.5">${allUpcoming[0].name}'s ${allUpcoming[0].type}</h2><p class="text-sm text-[#A3B8B0]">${formatDisplayDate(allUpcoming[0].date)}</p>`;
+    document.getElementById('heroText').innerHTML = `<h2 class="serif text-2xl text-[#F4F1E1] mb-1.5">${allUpcoming[0].name}</h2><p class="text-sm text-[#A3B8B0]">${allUpcoming[0].type} · ${formatDisplayDate(allUpcoming[0].date)}</p>`;
   } else {
     document.getElementById('heroNum').textContent = "—";
     document.getElementById('heroText').innerHTML = `<p class="text-[#F9E596] italic text-sm">Add an event below to see what's coming up.</p>`;
   }
 
   if (visible.length === 0) {
-    list.innerHTML = `<div class="glass-card col-span-full p-10 text-center text-sm text-[#A3B8B0] italic">No entries saved yet. Add one below!</div>`;
+    list.innerHTML = `<div class="glass-card col-span-full p-10 text-center text-sm text-[#A3B8B0] italic">No entries saved yet. Click "Add Kerala Festivals" or enter one below!</div>`;
     return;
   }
 
@@ -526,20 +412,21 @@ function render() {
 
     return `
       <div class="glass-card p-5 fade-in flex flex-col group">
-        <div class="flex justify-between items-start gap-3 mb-3">
+        <div class="flex justify-between items-start gap-3 mb-2">
           <div>
             <h3 class="serif text-xl font-medium text-[#F4F1E1]">${e.name}</h3>
-            <p class="text-[13px] text-[#A3B8B0] mt-1">${e.kind === 'date' ? `${e.relation} · ${e.type} <br>` : ''}${formatDisplayDate(e.date, e.time)}</p>
+            <p class="text-[13px] text-[#A3B8B0] mt-1">${e.kind === 'date' ? `${e.relation} · ${e.type} <br>` : ''}${formatDisplayDate(e.date)}</p>
           </div>
           <span class="shrink-0 text-[10px] font-bold uppercase px-2.5 py-1 rounded ${pillBg}">${dayLabel}</span>
         </div>
 
+        ${e.budget ? `<div class="text-[11px] text-[#D4AF37] font-semibold mb-2">Budget: ₹${Number(e.budget).toLocaleString('en-IN')}</div>` : ''}
         ${e.notes ? `<div class="mb-4 text-sm text-[#A3B8B0] bg-[#0A1C16]/50 p-3 rounded-lg border border-[#1E3A2F] italic border-l-2 border-l-[#D4AF37] flex-1">"${e.notes}"</div>` : '<div class="flex-1"></div>'}
 
         <div class="pt-4 mt-auto border-t border-[#1E3A2F]/50 flex items-center justify-between">
           <div class="flex gap-2 items-center">
             ${!rememberedIds.includes(e.id) ? `<button onclick="markRemembered('${e.id}')" class="text-xs font-bold text-[#A3B8B0] hover:text-[#F4F1E1] border border-[#1E3A2F] px-2.5 py-1.5 rounded">Handled</button>` : `<span class="text-xs font-semibold text-[#3fa34d] px-2 py-1">Handled ✓</span>`}
-            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#0A1C16] bg-[#D4AF37] hover:bg-[#F9E596] px-3 py-1.5 rounded-lg ml-1 transition-all shadow-sm">✨ AI Gift Ideas</button>` : ''}
+            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#0A1C16] bg-[#D4AF37] hover:bg-[#F9E596] px-3 py-1.5 rounded-lg ml-1">✨ AI Gifts</button>` : ''}
           </div>
           <div class="flex gap-3">
             <button onclick="startEdit('${e.id}')" class="text-[11px] font-semibold uppercase text-[#A3B8B0] hover:text-[#F4F1E1]">Edit</button>
@@ -548,10 +435,7 @@ function render() {
         </div>
 
         <div id="ai-ideas-${e.id}" class="hidden mt-4 pt-4 border-t border-[#1E3A2F] bg-[#0A1C16] -mx-5 -mb-5 px-5 pb-5 rounded-b-2xl">
-          <p class="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37] mb-3 flex items-center gap-1">
-             <svg width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M214.34,51.81A23.88,23.88,0,0,0,197.66,45L160,32,147,10.66a23.94,23.94,0,0,0-41,0L93.07,32,55.42,45A24,24,0,0,0,41,83l17.75,34.25-17.75,34.22a24,24,0,0,0,14.46,38L93.07,202.4l12.92,21.28a23.94,23.94,0,0,0,41,0L160,202.4l37.66-12.91a24,24,0,0,0,14.46-38L194.39,117.25Z"></path></svg>
-             Gemini Suggestions
-          </p>
+          <p class="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37] mb-3">Gemini Suggestions</p>
           <ul id="ai-list-${e.id}" class="space-y-2"></ul>
         </div>
       </div>
@@ -559,29 +443,26 @@ function render() {
   }).join('');
 }
 
-// --- CRUD ACTIONS ---
 function startEdit(id) {
   const e = entries.find(x => x.id === id);
   if (!e) return;
   editingId = id; setKind(e.kind);
   document.getElementById('fName').value = e.name; 
   document.getElementById('fDate').value = e.date; 
+  document.getElementById('fBudget').value = e.budget || ''; 
   document.getElementById('fNotes').value = e.notes || '';
   if (e.kind === 'date') { 
     document.getElementById('fRelation').value = e.relation; 
     document.getElementById('fType').value = e.type; 
-  } else { 
-    document.getElementById('fTime').value = e.time || ''; 
   }
-  
   document.getElementById('addBtn').textContent = 'Save Changes';
   document.getElementById('cancelEditBtn').classList.remove('hidden');
-  document.getElementById('addForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('addForm').scrollIntoView({ behavior: 'smooth' });
 }
 
 function cancelEdit() {
-  editingId = null; 
-  document.getElementById('addForm').reset(); 
+  editingId = null;
+  document.getElementById('addForm').reset();
   setKind(currentKind);
   document.getElementById('cancelEditBtn').classList.add('hidden');
 }
@@ -591,14 +472,6 @@ function deleteEntry(id) {
   rememberedIds = rememberedIds.filter(x => x !== id);
   saveAllToStorage();
   render(); 
-}
-
-function copyToClipboard(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const old = btn.textContent; 
-    btn.textContent = 'Copied!'; 
-    setTimeout(() => btn.textContent = old, 2000);
-  });
 }
 
 document.getElementById('addForm').addEventListener('submit', (ev) => {
@@ -616,27 +489,23 @@ document.getElementById('addForm').addEventListener('submit', (ev) => {
     kind: currentKind, 
     name, 
     date, 
+    budget: document.getElementById('fBudget').value,
     notes: document.getElementById('fNotes').value.trim() 
   };
   if (currentKind === 'date') { 
     entry.relation = document.getElementById('fRelation').value; 
     entry.type = document.getElementById('fType').value; 
-  } else { 
-    entry.time = document.getElementById('fTime').value; 
   }
 
-  if (editingId) {
-    entries = entries.map(e => e.id === editingId ? entry : e);
-  } else {
-    entries.push(entry);
-  }
+  if (editingId) entries = entries.map(e => e.id === editingId ? entry : e);
+  else entries.push(entry);
   
   saveAllToStorage();
   cancelEdit(); 
   render();
 });
 
-// Initialization
+// Init
 document.getElementById('scoreValue').textContent = score;
 document.getElementById('streakValue').textContent = streak;
 updateScore(0);
