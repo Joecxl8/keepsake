@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'GEMINI_API_KEY is not set in Vercel environment variables' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY missing in Vercel environment variables' });
   }
 
   const { prompt } = req.body;
@@ -28,14 +28,14 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       return res.status(response.status).json({ 
-        error: data.error?.message || 'Google API returned an error',
+        error: data.error?.message || 'Google API error',
         details: data 
       });
     }
 
     const outputText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!outputText) {
-      return res.status(500).json({ error: 'Empty output from model', raw: data });
+      return res.status(500).json({ error: 'Empty output from model' });
     }
 
     return res.status(200).json({ text: outputText });
