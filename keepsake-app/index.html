@@ -72,6 +72,7 @@
 </head>
 <body class="min-h-screen pb-24 selection:bg-[#D4AF37] selection:text-[#071510]">
 
+<!-- Navigation Bar -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-[#071510]/95 backdrop-blur-md border-b border-[#1B382D]">
   <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
@@ -111,6 +112,7 @@
   <div class="kasavu-border w-full"></div>
 </nav>
 
+<!-- Sadhya Checklist Modal -->
 <div id="checklistModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="glass-card max-w-lg w-full p-6 relative border border-[#D4AF37]/30">
     <div class="flex justify-between items-center mb-4 border-b border-[#1B382D] pb-3">
@@ -130,6 +132,7 @@
   </div>
 </div>
 
+<!-- About Modal -->
 <div id="aboutModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="glass-card max-w-lg w-full p-6 relative border border-[#D4AF37]/30">
     <div class="flex justify-between items-center mb-4 border-b border-[#1B382D] pb-3">
@@ -150,14 +153,17 @@
   </div>
 </div>
 
+<!-- Quick Add Action Button -->
 <button onclick="scrollToForm()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-[#D4AF37] text-[#071510] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl font-bold border border-[#F9E596]/40 active:scale-95 transition-transform" title="Add Event">
   +
 </button>
 
 <div class="max-w-7xl mx-auto px-5 pt-28 lg:pt-32 flex flex-col lg:flex-row gap-8 items-start">
   
+  <!-- Left Column -->
   <aside class="w-full lg:w-1/3 flex flex-col gap-6 lg:sticky lg:top-24 z-10">
     
+    <!-- Budget & Redemption Dashboard -->
     <div class="glass-card brass-glow p-5 relative overflow-hidden flex flex-col gap-4">
       <div class="flex items-center justify-between">
         <div>
@@ -181,6 +187,7 @@
       </div>
     </div>
 
+    <!-- Countdown Card -->
     <div class="glass-card p-6 flex items-center gap-5 border-t-2 border-t-[#D4AF37]" id="hero">
       <div class="shrink-0 w-20 h-20 rounded-2xl border border-[#D4AF37]/40 bg-[#122E24] flex flex-col items-center justify-center shadow-inner">
         <span class="serif text-3xl font-bold text-[#D4AF37] leading-none" id="heroNum">—</span>
@@ -191,6 +198,7 @@
       </div>
     </div>
 
+    <!-- Add Form -->
     <form id="addForm" class="glass-card p-6">
       <h2 class="text-xs uppercase tracking-widest font-bold text-[#95AFA5] mb-5 border-b border-[#1B382D] pb-3">Add New Entry</h2>
       
@@ -231,6 +239,7 @@
         </div>
       </div>
 
+      <!-- Nakshatram & Budget -->
       <div id="starField" class="grid grid-cols-2 gap-4 mb-5">
         <div>
           <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Nakshatram (Star)</label>
@@ -296,6 +305,7 @@
     </form>
   </aside>
 
+  <!-- Right Column -->
   <main class="w-full lg:w-2/3 flex flex-col gap-6">
     <div id="panicZone" class="empty:hidden"></div>
 
@@ -330,6 +340,10 @@ let rememberedIds = JSON.parse(localStorage.getItem(STORAGE_HANDLED) || '[]');
 let currentKind = 'date';
 let currentFilter = 'all';
 let editingId = null;
+
+// Session cache to prevent quota burns
+const aiGiftCache = {};
+const aiWishCache = {};
 
 const DEFAULT_CHECKLIST = [
   { id: 'c1', text: 'Fresh Mullapoo (Jasmine Flowers) for morning', done: false },
@@ -552,6 +566,13 @@ async function generateToneWish(id) {
   const e = entries.find(x => x.id === id);
   const tone = document.getElementById(`tone-select-${id}`).value;
   const target = document.getElementById(`msg-text-${id}`);
+  const cacheKey = `${id}-${tone}`;
+
+  if (aiWishCache[cacheKey]) {
+    target.textContent = aiWishCache[cacheKey];
+    return;
+  }
+
   target.innerHTML = `<span class="italic text-[#95AFA5] animate-pulse">✨ Drafting in ${tone} tone...</span>`;
 
   const prompt = `Write a short WhatsApp greeting from a Malayali family member to ${e.name} (${e.relation}) celebrating their ${e.type}. Tone style: "${tone}". Context notes: "${e.notes || ''}". Return only the final greeting text.`;
@@ -562,12 +583,22 @@ async function generateToneWish(id) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
-    const data = await res.json();
-    if (data?.text) {
-      target.textContent = data.text.trim();
+
+    if (res.status === 429) {
+      target.textContent = `Google API quota reached. Please wait 30 seconds before generating again.`;
       return;
     }
-  } catch {}
+
+    const data = await res.json();
+    if (data?.text) {
+      const cleaned = data.text.trim();
+      aiWishCache[cacheKey] = cleaned;
+      target.textContent = cleaned;
+      return;
+    }
+  } catch (err) {
+    console.warn(err);
+  }
 
   if (tone === "Respectful") {
     target.textContent = `Wishing you a truly blessed and happy ${e.type}, ${e.name}! May God shower good health, happiness, and peace in the year ahead. 🙏`;
@@ -589,9 +620,15 @@ async function triggerAIGifts(id) {
   }
 
   box.classList.remove('hidden');
-  list.innerHTML = `<li class="text-xs text-[#95AFA5] italic animate-pulse">✨ Suggesting gift ideas...</li>`;
+
+  if (aiGiftCache[id]) {
+    list.innerHTML = aiGiftCache[id];
+    return;
+  }
+
+  list.innerHTML = `<li class="text-xs text-[#95AFA5] italic animate-pulse">✨ Generating tailored ideas with Gemini...</li>`;
   
-  const prompt = `Provide 3 distinct, creative Kerala gift ideas for ${e.name} (${e.relation}), celebrating ${e.type}. Budget: ₹${e.budget || 'Open'}. Notes: "${e.notes || 'None'}". Star: ${e.star || 'None'}. Return 3 concise bullet points tailored specifically to this person/festival.`;
+  const prompt = `Provide 3 distinct, creative gift ideas for ${e.name} (${e.relation}), celebrating ${e.type}. Budget: ₹${e.budget || 'Open'}. Notes: "${e.notes || 'None'}". Star: ${e.star || 'None'}. Return exactly 3 concise bullet points.`;
   
   try {
     const res = await fetch('/api/gemini', {
@@ -599,18 +636,29 @@ async function triggerAIGifts(id) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
+
+    if (res.status === 429) {
+      list.innerHTML = `<li class="text-xs text-[#E05252] italic">Google API quota reached (15 req/min). Please wait 30 seconds before clicking again.</li>`;
+      return;
+    }
+
     const data = await res.json();
     if (data?.text) {
       const items = data.text.split('\n').filter(line => line.trim().length > 0).slice(0, 3);
-      list.innerHTML = items.map(i => `
+      const rendered = items.map(i => `
         <li class="text-xs text-[#F4F1E1] flex items-start gap-2 leading-relaxed mb-2.5">
           <span class="text-[#D4AF37] mt-0.5 select-none shrink-0">✦</span>
           <span>${i.replace(/^[\*\-\d\.]+\s*/, '')}</span>
         </li>
       `).join('');
+
+      aiGiftCache[id] = rendered;
+      list.innerHTML = rendered;
       return;
     }
-  } catch {}
+  } catch (err) {
+    console.warn(err);
+  }
 
   const nameLower = e.name.toLowerCase();
   let fallback = [
