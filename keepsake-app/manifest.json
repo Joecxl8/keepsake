@@ -1,21 +1,27 @@
 {
   "name": "Keepsake — Ormappetti",
   "short_name": "Keepsake",
-  "description": "Never miss a birthday, anniversary, or Kerala festival.",
+  "description": "Never miss a birthday, anniversary, or Kerala festival. AI gift suggestions, Sadhya checklists, and smart reminders.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A1C16",
-  "theme_color": "#0A1C16",
+  "background_color": "#071510",
+  "theme_color": "#071510",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "https://img.icons8.com/color/192/traditional-tent.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%23071510'/%3E%3Ctext y='.85em' x='50%25' text-anchor='middle' font-size='120'%3E🪔%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://img.icons8.com/color/512/traditional-tent.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23071510'/%3E%3Ctext y='.85em' x='50%25' text-anchor='middle' font-size='320'%3E🪔%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "categories": ["lifestyle", "productivity"],
+  "lang": "en",
+  "dir": "ltr"
 }
