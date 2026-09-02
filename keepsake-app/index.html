@@ -66,7 +66,7 @@
   #addForm { scroll-margin-top: 120px; }
 </style>
 </head>
-<body class="min-h-screen pb-16 selection:bg-[#D4AF37] selection:text-[#0A1C16]">
+<body class="min-h-screen pb-20 selection:bg-[#D4AF37] selection:text-[#0A1C16]">
 
 <!-- Navigation Bar -->
 <nav class="fixed top-0 inset-x-0 z-50 bg-[#0A1C16]/90 backdrop-blur-md border-b border-[#1E3A2F]">
@@ -124,6 +124,11 @@
     </div>
   </div>
 </div>
+
+<!-- Mobile Quick Add FAB -->
+<button onclick="scrollToForm()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-[#D4AF37] text-[#0A1C16] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl font-bold border border-[#F9E596]/40 active:scale-95 transition-transform" title="Add Event">
+  +
+</button>
 
 <div class="max-w-7xl mx-auto px-5 pt-32 lg:pt-36 flex flex-col lg:flex-row gap-8 items-start">
   
@@ -261,7 +266,7 @@
         <textarea id="fNotes" class="w-full rounded-lg px-4 py-3 text-sm h-20 resize-none" placeholder="e.g. Kasavu saree, Mullapoo, shirt size 40, ring size 6"></textarea>
       </div>
 
-      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#0A1C16] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 hover:shadow-xl">
+      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#0A1C16] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 hover:shadow-xl active:scale-[0.99]">
         Save to Keepsake
       </button>
       <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="hidden w-full mt-3 py-2.5 text-sm font-semibold text-[#A3B8B0] hover:text-[#F4F1E1] bg-[#1E3A2F]/40 hover:bg-[#1E3A2F] rounded-lg transition-all">Cancel Editing</button>
@@ -303,11 +308,17 @@ let currentKind = 'date';
 let currentFilter = 'all';
 let editingId = null;
 
+// Comprehensive Kerala Festival & Holiday Dataset
 const KERALA_FESTIVALS = [
-  { name: "Vishu", relation: "Festival", type: "Festival", date: "2027-04-14", notes: "Vishukkaineettam, Kani preparation, Sadhya essentials", budget: "3000" },
-  { name: "Thiruvonam (Onam)", relation: "Festival", type: "Festival", date: "2027-08-28", notes: "Ona-kodi clothes, Pookkalam flowers, Payasam ingredients", budget: "5000" },
-  { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala Kasavu attire day", budget: "1000" },
-  { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, Christmas star, family gift hampers", budget: "4000" }
+  { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala attire day (Kasavu Mundu / Saree)", budget: "1500" },
+  { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, hanging stars, family feast and hampers", budget: "4000" },
+  { name: "Attukal Pongala", relation: "Festival", type: "Festival", date: "2027-02-23", notes: "Earthen pots, jaggery, coconut, and payasam preparation", budget: "2000" },
+  { name: "Maha Shivaratri", relation: "Festival", type: "Festival", date: "2027-03-07", notes: "Aluva Manappuram Balitharpanam and fasting essentials", budget: "1000" },
+  { name: "Eid-ul-Fitr (Cheriya Perunnal)", relation: "Festival", type: "Festival", date: "2027-03-10", notes: "New clothes, biryani essentials, and gifting sweets", budget: "3500" },
+  { name: "Easter", relation: "Festival", type: "Festival", date: "2027-03-28", notes: "Appam, stew, meat dishes, and family celebrations", budget: "3000" },
+  { name: "Vishu", relation: "Festival", type: "Festival", date: "2027-04-14", notes: "Vishukani items (Kani Konna, Uruli, coins) and Kaineettam cash", budget: "3500" },
+  { name: "Thrissur Pooram", relation: "Festival", type: "Festival", date: "2027-05-16", notes: "Kudamattom, Ilanjithara Melam, Vadakkumnathan temple visit", budget: "2500" },
+  { name: "Thiruvonam (Onam)", relation: "Festival", type: "Festival", date: "2027-08-28", notes: "Grand 26-dish Sadhya, Onakkodi clothes, Pookkalam flowers", budget: "6000" }
 ];
 
 function syncKeralaPack() {
@@ -369,6 +380,10 @@ function toggleAboutModal() {
   document.getElementById('aboutModal').classList.toggle('hidden');
 }
 
+function scrollToForm() {
+  document.getElementById('addForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function updateScore(points) {
   score = Math.max(0, score + points);
   document.getElementById('scoreValue').textContent = score;
@@ -385,7 +400,6 @@ function updateScore(points) {
   saveAllToStorage();
 }
 
-// TOGGLE HANDLED / UNHANDLED
 function toggleHandled(id) {
   const e = entries.find(x => x.id === id);
   if (!e) return;
@@ -480,9 +494,9 @@ async function triggerAIGifts(id) {
   }
 
   box.classList.remove('hidden');
-  list.innerHTML = `<li class="text-sm text-[#A3B8B0] italic animate-pulse">✨ Suggesting custom gift ideas...</li>`;
+  list.innerHTML = `<li class="text-sm text-[#A3B8B0] italic animate-pulse">✨ Suggesting gift ideas...</li>`;
   
-  const prompt = `Provide 3 distinct, creative, culturally relevant gift ideas for ${e.name} (${e.relation}), celebrating ${e.type}. Budget: ₹${e.budget || 'Open'}. Notes: "${e.notes || 'None'}". Star: ${e.star || 'None'}. Return 3 concise bullet points tailored specifically to this person/festival.`;
+  const prompt = `Provide 3 distinct, creative Kerala gift ideas for ${e.name} (${e.relation}), celebrating ${e.type}. Budget: ₹${e.budget || 'Open'}. Notes: "${e.notes || 'None'}". Star: ${e.star || 'None'}. Return 3 concise bullet points tailored specifically to this person/festival.`;
   const aiText = await fetchGeminiAI(prompt);
   
   if (aiText) {
@@ -491,16 +505,17 @@ async function triggerAIGifts(id) {
     return;
   }
 
-  // Specific fallback tailored by type
   let fallback = [
-    "Handcrafted Kasavu gift or brass decor item from local artisans.",
-    "A premium assorted sweet or savory treat basket.",
-    "A memorable dining or weekend getaway experience."
+    "Handcrafted brass Nilavilakku or Kerala wall mural piece.",
+    "Assorted traditional bakery hamper (Halwa, Banana chips, Achappam).",
+    "Weekend getaway experience or curated private dinner."
   ];
-  if (e.type === 'Festival' && e.name.toLowerCase().includes('christmas')) {
-    fallback = ["Rich fruit plum cake and artisan wine hamper.", "Handmade hanging Christmas stars and home lights.", "Curated festive dinner box for family."];
-  } else if (e.type === 'Festival' && e.name.toLowerCase().includes('onam')) {
-    fallback = ["Authentic handloom Set Mundu / Kasavu saree.", "Pre-booked traditional Grand Sadhya feast.", "Terracotta brass Nilavilakku or mural painting."];
+  if (e.name.toLowerCase().includes('christmas')) {
+    fallback = ["Premium Kerala plum cake with dried fruit box.", "Artisan hanging paper star with brass bells.", "Curated festive dinner box for family."];
+  } else if (e.name.toLowerCase().includes('onam')) {
+    fallback = ["Authentic Balaramapuram handloom Set Mundu or Kasavu saree.", "Pre-booked traditional Grand Sadhya feast for the household.", "Handcrafted Aranmula Kannadi souvenir."];
+  } else if (e.name.toLowerCase().includes('vishu')) {
+    fallback = ["Traditional brass Uruli for Vishukani display.", "Fresh crisp currency notes ready for Vishukkaineettam packets.", "Assorted Kerala Payasam hamper."];
   }
 
   list.innerHTML = fallback.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-snug">${i}</li>`).join('');
@@ -555,7 +570,15 @@ function render() {
   }
 
   if (visible.length === 0) {
-    list.innerHTML = `<div class="glass-card col-span-full p-10 text-center text-sm text-[#A3B8B0] italic">No entries saved yet. Click "Add Kerala Festivals" or enter one below!</div>`;
+    list.innerHTML = `
+      <div class="glass-card col-span-full p-12 text-center flex flex-col items-center justify-center gap-3">
+        <div class="text-4xl mb-1">🌴</div>
+        <h3 class="serif text-lg text-[#F4F1E1]">No events found</h3>
+        <p class="text-xs text-[#A3B8B0] max-w-sm">Tap the "Add Kerala Festivals" button above to populate state holidays, or add custom dates below.</p>
+        <button onclick="syncKeralaPack()" class="mt-2 text-xs bg-[#1a382d] text-[#D4AF37] border border-[#D4AF37]/40 px-4 py-2 rounded-lg font-semibold hover:bg-[#2A4A3F] transition-all">
+          Load Kerala Pack
+        </button>
+      </div>`;
     return;
   }
 
@@ -566,7 +589,7 @@ function render() {
     const isHandled = rememberedIds.includes(e.id);
 
     return `
-      <div class="glass-card p-5 fade-in flex flex-col group">
+      <div class="glass-card p-5 fade-in flex flex-col group hover:border-[#D4AF37]/40 transition-colors">
         <div class="flex justify-between items-start gap-3 mb-2">
           <div>
             <h3 class="serif text-xl font-medium text-[#F4F1E1]">${e.name}</h3>
@@ -587,7 +610,7 @@ function render() {
             <button onclick="toggleHandled('${e.id}')" title="${isHandled ? 'Click to undo' : 'Mark handled'}" class="text-xs font-bold px-2 py-1 rounded transition-colors ${isHandled ? 'border border-[#3fa34d]/50 bg-[#3fa34d]/10 text-[#3fa34d] hover:bg-[#3fa34d]/20' : 'text-[#A3B8B0] hover:text-[#F4F1E1] border border-[#1E3A2F]'}">
               ${isHandled ? 'Handled ✓' : 'Handled'}
             </button>
-            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#0A1C16] bg-[#D4AF37] hover:bg-[#F9E596] px-2.5 py-1 rounded-lg">✨ Gifts</button>` : ''}
+            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#0A1C16] bg-[#D4AF37] hover:bg-[#F9E596] px-2.5 py-1 rounded-lg transition-transform active:scale-95">✨ Gifts</button>` : ''}
             <button onclick="openGoogleCalendar('${e.id}')" title="Add to Google Calendar" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] border border-[#1E3A2F] px-2 py-1 rounded">📅 Cal</button>
             <button onclick="openWhatsAppShare('Hey ${e.name}! Just thinking of you and your upcoming ${e.type} 🌸')" title="Share to WhatsApp" class="text-xs text-[#25D366] border border-[#1E3A2F] px-2 py-1 rounded">💬</button>
           </div>
@@ -625,7 +648,7 @@ function startEdit(id) {
   }
   document.getElementById('addBtn').textContent = 'Save Changes';
   document.getElementById('cancelEditBtn').classList.remove('hidden');
-  document.getElementById('addForm').scrollIntoView({ behavior: 'smooth' });
+  scrollToForm();
 }
 
 function cancelEdit() {
