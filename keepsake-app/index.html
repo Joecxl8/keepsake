@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Keepsake — Never Miss a Date</title>
+<title>Keepsake — Ormappetti</title>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0A1C16">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -12,14 +12,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-kerala-dark: #0A1C16;
+    --bg-kerala-dark: #071510;
     --kerala-gold: #D4AF37;
     --kerala-gold-soft: #F9E596;
-    --card-bg: #122921;
-    --card-border: #1E3A2F;
+    --card-bg: #0F231C;
+    --card-border: #1B382D;
     --text-main: #F4F1E1;
-    --text-muted: #A3B8B0;
-    --accent-red: #D94848;
+    --text-muted: #95AFA5;
+    --accent-red: #E05252;
   }
 
   body {
@@ -32,8 +32,8 @@
   h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
 
   .kasavu-border {
-    height: 12px;
-    background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='12' fill='%23F4F1E1'/%3E%3Crect x='10' width='20' height='12' fill='%23D4AF37'/%3E%3C/svg%3E");
+    height: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='10' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='10' fill='%23F4F1E1'/%3E%3Crect x='10' width='20' height='10' fill='%23D4AF37'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
   }
 
@@ -41,11 +41,15 @@
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+
+  .brass-glow {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.12);
   }
 
   input, select, textarea {
-    background: rgba(10, 28, 22, 0.8) !important;
+    background: rgba(7, 21, 16, 0.85) !important;
     border: 1px solid var(--card-border) !important;
     color: var(--text-main) !important;
     transition: all 0.2s ease;
@@ -56,20 +60,19 @@
     box-shadow: 0 0 0 1px var(--kerala-gold) !important;
   }
 
-  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg-kerala-dark); }
   ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: #2A4A3F; }
+  ::-webkit-scrollbar-thumb:hover { background: #264B3E; }
 
-  .fade-in { animation: fadeIn 0.3s ease-in-out; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   #addForm { scroll-margin-top: 120px; }
 </style>
 </head>
-<body class="min-h-screen pb-20 selection:bg-[#D4AF37] selection:text-[#0A1C16]">
+<body class="min-h-screen pb-24 selection:bg-[#D4AF37] selection:text-[#071510]">
 
-<!-- Navigation Bar -->
-<nav class="fixed top-0 inset-x-0 z-50 bg-[#0A1C16]/90 backdrop-blur-md border-b border-[#1E3A2F]">
+<nav class="fixed top-0 inset-x-0 z-50 bg-[#071510]/95 backdrop-blur-md border-b border-[#1B382D]">
   <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
       <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,112 +80,134 @@
         <circle cx="17" cy="20" r="11" stroke="#D4AF37" stroke-width="1.8"/>
         <path d="M17 15.6C15.9 14.1 13.6 14.3 12.7 16C11.9 17.5 12.6 19 17 23.4C21.4 19 22.1 17.5 21.3 16C20.4 14.3 18.1 14.1 17 15.6Z" fill="#D4AF37"/>
       </svg>
-      <h1 class="text-2xl font-medium tracking-tight text-[#F4F1E1] leading-none">Keepsake</h1>
+      <div>
+        <h1 class="text-2xl font-medium tracking-tight text-[#F4F1E1] leading-none">Keepsake</h1>
+        <p class="serif italic text-[#D4AF37] text-[11px] mt-0.5 tracking-wider">Ormappetti</p>
+      </div>
     </div>
     
     <div class="flex items-center gap-2 sm:gap-3">
-      <button onclick="syncKeralaPack()" class="text-xs bg-[#1a382d] text-[#D4AF37] hover:bg-[#2A4A3F] border border-[#D4AF37]/40 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all shadow-sm">
+      <button onclick="syncKeralaPack()" class="text-xs bg-[#122E24] text-[#D4AF37] hover:bg-[#1A3D30] border border-[#D4AF37]/30 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
         🌴 <span class="hidden sm:inline">Add</span> Kerala Festivals
       </button>
 
-      <button onclick="exportData()" title="Backup Entries" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] border border-[#1E3A2F] px-2.5 py-1.5 rounded-lg transition-all">
+      <button onclick="toggleChecklistModal()" class="text-xs text-[#F4F1E1] hover:text-[#D4AF37] bg-[#122E24] border border-[#1B382D] px-2.5 py-1.5 rounded-lg transition-all">
+        📋 Sadhya Checklist
+      </button>
+
+      <button onclick="exportData()" title="Backup Entries" class="text-xs text-[#95AFA5] hover:text-[#D4AF37] border border-[#1B382D] px-2.5 py-1.5 rounded-lg transition-all">
         💾 Export
       </button>
-      <label title="Restore Entries" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] border border-[#1E3A2F] px-2.5 py-1.5 rounded-lg transition-all cursor-pointer">
+      <label title="Restore Entries" class="text-xs text-[#95AFA5] hover:text-[#D4AF37] border border-[#1B382D] px-2.5 py-1.5 rounded-lg transition-all cursor-pointer">
         📥 Import
         <input type="file" id="importInput" onchange="importData(event)" accept=".json" class="hidden" />
       </label>
 
-      <button onclick="toggleAboutModal()" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] border border-[#1E3A2F] px-3 py-1.5 rounded-lg transition-all">
+      <button onclick="toggleAboutModal()" class="text-xs text-[#95AFA5] hover:text-[#D4AF37] border border-[#1B382D] px-2.5 py-1.5 rounded-lg transition-all">
         About
       </button>
     </div>
   </div>
-  <div class="kasavu-border h-[6px] w-full shadow-md"></div>
+  <div class="kasavu-border h-[4px] w-full shadow-md"></div>
 </nav>
 
-<!-- About Modal -->
-<div id="aboutModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+<div id="checklistModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
   <div class="glass-card max-w-lg w-full p-6 relative border border-[#D4AF37]/30">
-    <div class="flex justify-between items-center mb-4 border-b border-[#1E3A2F] pb-3">
-      <h3 class="serif text-xl text-[#F4F1E1]">About Keepsake</h3>
-      <button onclick="toggleAboutModal()" class="text-[#A3B8B0] hover:text-[#F4F1E1] text-lg font-bold">✕</button>
+    <div class="flex justify-between items-center mb-4 border-b border-[#1B382D] pb-3">
+      <div>
+        <h3 class="serif text-xl text-[#F4F1E1]">Sadhya & Festival Prep</h3>
+        <p class="text-xs text-[#95AFA5]">Traditional essentials so nothing gets missed.</p>
+      </div>
+      <button onclick="toggleChecklistModal()" class="text-[#95AFA5] hover:text-[#F4F1E1] text-lg font-bold">✕</button>
     </div>
-    <div class="space-y-4 text-sm text-[#A3B8B0] leading-relaxed">
-      <p>
-        Let’s be honest: default calendar apps are boring, and missing a birthday, anniversary, or Kerala festival is not an option. Keepsake (<span class="serif italic text-[#D4AF37]">Ormappetti</span>) was built to take the panic out of special dates.
-      </p>
-      <p>
-        Created by <span class="text-[#F4F1E1] font-semibold">Joe Manu Thomas</span>, Keepsake combines dynamic countdowns, gamified redemption scores, and localized AI suggestions with zero clutter.
-      </p>
-      <p class="text-xs pt-2 border-t border-[#1E3A2F]">
-        PWA Enabled · Malayalam Nakshatram Support · Backup & Export · WhatsApp Integration.
-      </p>
-    </div>
-    <div class="mt-6 flex justify-end">
-      <button onclick="toggleAboutModal()" class="px-5 py-2 bg-[#D4AF37] text-[#0A1C16] text-xs font-bold rounded-lg hover:bg-[#F9E596] transition-colors">Close</button>
+    
+    <div id="checklistItems" class="space-y-2.5 max-h-72 overflow-y-auto pr-2 text-sm text-[#F4F1E1]">
+      </div>
+
+    <div class="mt-5 pt-3 border-t border-[#1B382D] flex justify-between items-center">
+      <button onclick="resetChecklist()" class="text-xs text-[#E05252] hover:underline">Reset Checklist</button>
+      <button onclick="toggleChecklistModal()" class="px-4 py-2 bg-[#D4AF37] text-[#071510] text-xs font-bold rounded-lg hover:bg-[#F9E596] transition-colors">Done</button>
     </div>
   </div>
 </div>
 
-<!-- Mobile Quick Add Floating Action Button -->
-<button onclick="scrollToForm()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-[#D4AF37] text-[#0A1C16] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl font-bold border border-[#F9E596]/40 active:scale-95 transition-transform" title="Add Event">
+<div id="aboutModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="glass-card max-w-lg w-full p-6 relative border border-[#D4AF37]/30">
+    <div class="flex justify-between items-center mb-4 border-b border-[#1B382D] pb-3">
+      <h3 class="serif text-xl text-[#F4F1E1]">About Keepsake</h3>
+      <button onclick="toggleAboutModal()" class="text-[#95AFA5] hover:text-[#F4F1E1] text-lg font-bold">✕</button>
+    </div>
+    <div class="space-y-3.5 text-sm text-[#95AFA5] leading-relaxed">
+      <p>
+        Keepsake (<span class="serif italic text-[#D4AF37]">Ormappetti</span>) was created to take the panic out of special dates—combining countdowns, Malayalam star birthdays, and culturally grounded gift ideas with zero clutter.
+      </p>
+      <p>
+        Built by <span class="text-[#F4F1E1] font-semibold">Joe Manu Thomas</span> with HTML, Tailwind CSS, vanilla JavaScript, and Vercel serverless integration.
+      </p>
+    </div>
+    <div class="mt-6 flex justify-end">
+      <button onclick="toggleAboutModal()" class="px-5 py-2 bg-[#D4AF37] text-[#071510] text-xs font-bold rounded-lg hover:bg-[#F9E596] transition-colors">Close</button>
+    </div>
+  </div>
+</div>
+
+<button onclick="scrollToForm()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-[#D4AF37] text-[#071510] w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl font-bold border border-[#F9E596]/40 active:scale-95 transition-transform" title="Add Event">
   +
 </button>
 
-<div class="max-w-7xl mx-auto px-5 pt-32 lg:pt-36 flex flex-col lg:flex-row gap-8 items-start">
+<div class="max-w-7xl mx-auto px-5 pt-28 lg:pt-32 flex flex-col lg:flex-row gap-8 items-start">
   
-  <!-- Left Column -->
-  <aside class="w-full lg:w-1/3 flex flex-col gap-6 lg:sticky lg:top-28 z-10">
+  <aside class="w-full lg:w-1/3 flex flex-col gap-6 lg:sticky lg:top-24 z-10">
     
-    <!-- Redemption Score Card -->
-    <div class="glass-card p-5 relative overflow-hidden flex items-center justify-between">
-      <div class="absolute -right-6 -top-6 w-32 h-32 bg-[#D4AF37] opacity-5 rounded-full pointer-events-none"></div>
-      <div>
-        <h2 class="text-xs uppercase tracking-widest font-bold text-[#A3B8B0] mb-2">Redemption Score</h2>
-        <div class="flex items-center gap-3">
-          <span class="serif text-4xl text-[#F4F1E1]" id="scoreValue">0</span>
-          <span class="text-xs text-[#D4AF37] font-medium px-2.5 py-1 rounded bg-[#1a382d] border border-[#D4AF37]/20" id="scoreTier">Sleeping on Sofa</span>
+    <div class="glass-card brass-glow p-5 relative overflow-hidden flex flex-col gap-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-[10px] uppercase tracking-widest font-bold text-[#95AFA5] mb-1">Redemption Score</h2>
+          <div class="flex items-center gap-2.5">
+            <span class="serif text-3xl text-[#F4F1E1]" id="scoreValue">0</span>
+            <span class="text-[11px] text-[#D4AF37] font-medium px-2 py-0.5 rounded bg-[#122E24] border border-[#D4AF37]/25" id="scoreTier">Sleeping on Sofa</span>
+          </div>
         </div>
-        <p class="text-[11px] text-[#A3B8B0] mt-2 leading-relaxed">Earn points for planning early. Lose points for panic mode.</p>
+        <div class="text-right">
+          <div class="text-[10px] uppercase font-bold text-[#95AFA5] mb-1">Streak</div>
+          <div class="flex items-center justify-end gap-1.5 text-[#D4AF37] bg-[#122E24] px-2.5 py-1 rounded-lg border border-[#D4AF37]/20 text-sm font-medium">
+            ★ <span id="streakValue">0</span>
+          </div>
+        </div>
       </div>
-      <div class="text-right flex flex-col items-end">
-        <div class="text-[10px] uppercase font-bold text-[#A3B8B0] mb-1">Streak</div>
-        <div class="flex items-center justify-end gap-1.5 text-[#D4AF37] bg-[#1a382d] px-3 py-1.5 rounded-lg border border-[#D4AF37]/20">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M239.1,105.81,146.43,84.18,124.8,2.77a8,8,0,0,0-15.53,0L87.64,84.18,5.16,105.81a8,8,0,0,0-4.6,12.75l66.5,53.2-22.38,82.88a8,8,0,0,0,12.06,8.7L118,211.75l61.27,51.58a8,8,0,0,0,12.06-8.7L168.94,171.76l66.5-53.2A8,8,0,0,0,239.1,105.81Z"></path></svg>
-          <span class="serif text-xl font-medium" id="streakValue">0</span>
-        </div>
+
+      <div class="pt-3 border-t border-[#1B382D] flex justify-between items-center text-xs">
+        <span class="text-[#95AFA5]">Total Planned Budget:</span>
+        <span class="text-[#F9E596] font-semibold text-sm" id="totalBudgetDisplay">₹0</span>
       </div>
     </div>
 
-    <!-- Countdown Hero -->
-    <div class="glass-card p-6 flex items-center gap-5 border-t-4 border-t-[#D4AF37]" id="hero">
-      <div class="shrink-0 w-20 h-20 rounded-full border border-[#D4AF37] bg-[#1a382d] flex flex-col items-center justify-center shadow-lg">
+    <div class="glass-card p-6 flex items-center gap-5 border-t-2 border-t-[#D4AF37]" id="hero">
+      <div class="shrink-0 w-20 h-20 rounded-2xl border border-[#D4AF37]/40 bg-[#122E24] flex flex-col items-center justify-center shadow-inner">
         <span class="serif text-3xl font-bold text-[#D4AF37] leading-none" id="heroNum">—</span>
-        <span class="text-[10px] uppercase tracking-widest text-[#F9E596] mt-1.5">days</span>
+        <span class="text-[9px] uppercase tracking-widest text-[#F9E596] mt-1.5">days</span>
       </div>
       <div id="heroText" class="flex-1">
         <p class="text-[#F9E596] italic text-sm">Add an event below to see what's coming up.</p>
       </div>
     </div>
 
-    <!-- Add Form -->
     <form id="addForm" class="glass-card p-6">
-      <h2 class="text-xs uppercase tracking-widest font-bold text-[#A3B8B0] mb-5 border-b border-[#1E3A2F] pb-3">Add New Entry</h2>
+      <h2 class="text-xs uppercase tracking-widest font-bold text-[#95AFA5] mb-5 border-b border-[#1B382D] pb-3">Add New Entry</h2>
       
       <div class="flex gap-2 mb-5">
-        <button type="button" id="kindDate" onclick="setKind('date')" class="flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm">Yearly Date</button>
-        <button type="button" id="kindReminder" onclick="setKind('reminder')" class="flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] text-sm font-semibold rounded-lg hover:bg-[#1E3A2F]">One-time</button>
+        <button type="button" id="kindDate" onclick="setKind('date')" class="flex-1 py-2.5 border border-[#D4AF37] bg-[#122E24] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm">Yearly Date</button>
+        <button type="button" id="kindReminder" onclick="setKind('reminder')" class="flex-1 py-2.5 border border-[#1B382D] text-[#95AFA5] text-sm font-semibold rounded-lg hover:bg-[#122E24]">One-time</button>
       </div>
 
       <div class="mb-5">
-        <label id="fNameLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Name / Festival</label>
+        <label id="fNameLabel" class="block text-xs font-semibold text-[#95AFA5] mb-2">Name / Festival</label>
         <input id="fName" type="text" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. Meera or Vishu" />
       </div>
 
       <div id="dateOnlyFields" class="grid grid-cols-2 gap-4 mb-5">
         <div>
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Relation</label>
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Relation</label>
           <select id="fRelation" class="w-full rounded-lg px-4 py-3 text-sm">
             <option value="Wife">Wife</option>
             <option value="Husband">Husband</option>
@@ -197,7 +222,7 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Occasion</label>
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Occasion</label>
           <select id="fType" class="w-full rounded-lg px-4 py-3 text-sm">
             <option value="Birthday">Birthday</option>
             <option value="Anniversary">Anniversary</option>
@@ -207,12 +232,11 @@
         </div>
       </div>
 
-      <!-- Nakshatram & Budget -->
       <div id="starField" class="grid grid-cols-2 gap-4 mb-5">
         <div>
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Nakshatram (Star)</label>
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Nakshatram (Star)</label>
           <select id="fStar" class="w-full rounded-lg px-4 py-3 text-sm">
-            <option value="">None / Not Sure</option>
+            <option value="">None / Gregorian</option>
             <option value="Aswathi">Aswathi (അശ്വതി)</option>
             <option value="Bharani">Bharani (ഭരണി)</option>
             <option value="Karthika">Karthika (കാർത്തിക)</option>
@@ -243,44 +267,43 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Budget (₹)</label>
-          <input id="fBudget" type="number" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. 2000" />
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Budget (₹)</label>
+          <input id="fBudget" type="number" class="w-full rounded-lg px-4 py-3 text-sm" placeholder="e.g. 2500" />
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4 mb-5">
         <div>
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Date</label>
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Date</label>
           <input id="fDate" type="date" class="w-full rounded-lg px-4 py-3 text-sm" />
         </div>
         <div id="timeField" class="hidden">
-          <label class="block text-xs font-semibold text-[#A3B8B0] mb-2">Time</label>
+          <label class="block text-xs font-semibold text-[#95AFA5] mb-2">Time</label>
           <input id="fTime" type="time" class="w-full rounded-lg px-4 py-3 text-sm" />
         </div>
       </div>
 
-      <p id="fError" class="hidden text-[#D94848] text-xs mb-4 p-2 bg-[#2A1616] border border-[#D94848] rounded">Please fill in the name and date.</p>
+      <p id="fError" class="hidden text-[#E05252] text-xs mb-4 p-2.5 bg-[#261212] border border-[#E05252]/40 rounded-lg">Please fill in the name and date.</p>
 
       <div class="mb-6">
-        <label id="fNotesLabel" class="block text-xs font-semibold text-[#A3B8B0] mb-2">Gift Ideas / Sizes / Notes</label>
+        <label id="fNotesLabel" class="block text-xs font-semibold text-[#95AFA5] mb-2">Gift Ideas / Sizes / Details</label>
         <textarea id="fNotes" class="w-full rounded-lg px-4 py-3 text-sm h-20 resize-none" placeholder="e.g. Kasavu saree, Mullapoo, shirt size 40, ring size 6"></textarea>
       </div>
 
-      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#0A1C16] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 hover:shadow-xl active:scale-[0.99]">
+      <button type="submit" id="addBtn" class="w-full py-3.5 bg-[#D4AF37] hover:bg-[#F9E596] text-[#071510] text-sm font-bold rounded-lg transition-all shadow-lg border border-[#F9E596]/30 active:scale-[0.99]">
         Save to Keepsake
       </button>
-      <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="hidden w-full mt-3 py-2.5 text-sm font-semibold text-[#A3B8B0] hover:text-[#F4F1E1] bg-[#1E3A2F]/40 hover:bg-[#1E3A2F] rounded-lg transition-all">Cancel Editing</button>
+      <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="hidden w-full mt-3 py-2.5 text-sm font-semibold text-[#95AFA5] hover:text-[#F4F1E1] bg-[#1B382D]/40 hover:bg-[#1B382D] rounded-lg transition-all">Cancel Editing</button>
     </form>
   </aside>
 
-  <!-- Right Column -->
   <main class="w-full lg:w-2/3 flex flex-col gap-6">
     <div id="panicZone" class="empty:hidden"></div>
 
     <div class="grid grid-cols-3 gap-2 p-1.5 glass-card rounded-xl">
-      <button id="tabAll" onclick="setFilter('all')" class="text-center py-2.5 text-sm font-semibold rounded-lg bg-[#D4AF37] text-[#0A1C16]">All Events</button>
-      <button id="tabDates" onclick="setFilter('date')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]">Special Dates</button>
-      <button id="tabReminders" onclick="setFilter('reminder')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]">Reminders</button>
+      <button id="tabAll" onclick="setFilter('all')" class="text-center py-2.5 text-sm font-semibold rounded-lg bg-[#D4AF37] text-[#071510] shadow-sm">All Events</button>
+      <button id="tabDates" onclick="setFilter('date')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#95AFA5] hover:text-[#F4F1E1]">Special Dates</button>
+      <button id="tabReminders" onclick="setFilter('reminder')" class="text-center py-2.5 text-sm font-semibold rounded-lg text-[#95AFA5] hover:text-[#F4F1E1]">Reminders</button>
     </div>
     
     <div id="list" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 min-h-[200px]"></div>
@@ -290,14 +313,16 @@
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg failed: ', err));
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }
 
+// Storage Constants
 const STORAGE_ENTRIES = 'keepsake_user_entries';
 const STORAGE_SCORE = 'keepsake_user_score';
 const STORAGE_STREAK = 'keepsake_user_streak';
 const STORAGE_HANDLED = 'keepsake_handled_ids';
+const STORAGE_CHECKLIST = 'keepsake_checklist_v1';
 
 let entries = JSON.parse(localStorage.getItem(STORAGE_ENTRIES) || '[]');
 let score = parseInt(localStorage.getItem(STORAGE_SCORE) || '0', 10);
@@ -308,34 +333,62 @@ let currentKind = 'date';
 let currentFilter = 'all';
 let editingId = null;
 
-// Comprehensive Kerala Festival & Holiday Dataset
+// Default Sadhya / Festive Checklist Items
+const DEFAULT_CHECKLIST = [
+  { id: 'c1', text: 'Fresh Mullapoo (Jasmine Flowers) for morning', done: false },
+  { id: 'c2', text: 'Clean Plantain Banana Leaves (Thalavazha)', done: false },
+  { id: 'c3', text: 'Sarkara Varatti & Banana Upperi (Crisps)', done: false },
+  { id: 'c4', text: 'Ada / Parippu / Palada Payasam Ingredients', done: false },
+  { id: 'c5', text: 'Fresh Kasavu Mundu / Neriyathu ready & pressed', done: false },
+  { id: 'c6', text: 'Inji Puli & Naranga Achar jars stocked', done: false },
+  { id: 'c7', text: 'Brass Nilavilakku polished & Thiri oiled', done: false }
+];
+
+let checklist = JSON.parse(localStorage.getItem(STORAGE_CHECKLIST) || JSON.stringify(DEFAULT_CHECKLIST));
+
+// Full Kerala Calendar Dataset
 const KERALA_FESTIVALS = [
-  { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala attire day (Kasavu Mundu / Saree)", budget: "1500" },
-  { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, hanging stars, family feast and hampers", budget: "4000" },
-  { name: "Attukal Pongala", relation: "Festival", type: "Festival", date: "2027-02-23", notes: "Earthen pots, jaggery, coconut, and payasam preparation", budget: "2000" },
+  { name: "Kerala Piravi", relation: "Festival", type: "Festival", date: "2026-11-01", notes: "Traditional Kerala Kasavu Mundu / Saree attire day", budget: "1500" },
+  { name: "Christmas", relation: "Festival", type: "Festival", date: "2026-12-25", notes: "Plum cake, hanging stars, family dinner hamper", budget: "4000" },
+  { name: "Attukal Pongala", relation: "Festival", type: "Festival", date: "2027-02-23", notes: "Earthen pot, jaggery, pure ghee, and payasam items", budget: "2000" },
   { name: "Maha Shivaratri", relation: "Festival", type: "Festival", date: "2027-03-07", notes: "Aluva Manappuram Balitharpanam and fasting essentials", budget: "1000" },
-  { name: "Eid-ul-Fitr (Cheriya Perunnal)", relation: "Festival", type: "Festival", date: "2027-03-10", notes: "New clothes, biryani essentials, and gifting sweets", budget: "3500" },
+  { name: "Eid-ul-Fitr (Cheriya Perunnal)", relation: "Festival", type: "Festival", date: "2027-03-10", notes: "New festive clothes, biryani essentials, and gifting halwa", budget: "3500" },
   { name: "Easter", relation: "Festival", type: "Festival", date: "2027-03-28", notes: "Appam, stew, meat dishes, and family celebrations", budget: "3000" },
-  { name: "Vishu", relation: "Festival", type: "Festival", date: "2027-04-14", notes: "Vishukani items (Kani Konna, Uruli, coins) and Kaineettam cash", budget: "3500" },
+  { name: "Vishu", relation: "Festival", type: "Festival", date: "2027-04-14", notes: "Vishukani Uruli, Kani Konna, coins, and Kaineettam envelopes", budget: "3500" },
   { name: "Thrissur Pooram", relation: "Festival", type: "Festival", date: "2027-05-16", notes: "Kudamattom, Ilanjithara Melam, Vadakkumnathan temple visit", budget: "2500" },
   { name: "Thiruvonam (Onam)", relation: "Festival", type: "Festival", date: "2027-08-28", notes: "Grand 26-dish Sadhya, Onakkodi clothes, Pookkalam flowers", budget: "6000" }
 ];
 
 function syncKeralaPack() {
-  let addedCount = 0;
+  let count = 0;
   KERALA_FESTIVALS.forEach(f => {
     if (!entries.some(e => e.name.toLowerCase() === f.name.toLowerCase())) {
       entries.push({ id: 'fest-' + Date.now() + Math.random(), kind: 'date', ...f });
-      addedCount++;
+      count++;
     }
   });
   saveAllToStorage();
   render();
-  alert(addedCount > 0 ? `Added ${addedCount} Kerala festival dates to Keepsake!` : "All Kerala festivals are already saved!");
+  alert(count > 0 ? `Added ${count} Kerala festivals to your calendar!` : "All Kerala festivals are already in your list!");
+}
+
+function saveAllToStorage() {
+  localStorage.setItem(STORAGE_ENTRIES, JSON.stringify(entries));
+  localStorage.setItem(STORAGE_SCORE, score.toString());
+  localStorage.setItem(STORAGE_STREAK, streak.toString());
+  localStorage.setItem(STORAGE_HANDLED, JSON.stringify(rememberedIds));
+  localStorage.setItem(STORAGE_CHECKLIST, JSON.stringify(checklist));
+  calculateBudgetSummary();
+}
+
+function calculateBudgetSummary() {
+  const total = entries.reduce((acc, curr) => acc + (parseInt(curr.budget, 10) || 0), 0);
+  const el = document.getElementById('totalBudgetDisplay');
+  if (el) el.textContent = `₹${total.toLocaleString('en-IN')}`;
 }
 
 function exportData() {
-  const data = { entries, score, streak, rememberedIds, exportDate: new Date().toISOString() };
+  const data = { entries, score, streak, rememberedIds, checklist, exportDate: new Date().toISOString() };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -356,24 +409,45 @@ function importData(event) {
         score = data.score || 0;
         streak = data.streak || 0;
         rememberedIds = data.rememberedIds || [];
+        if (Array.isArray(data.checklist)) checklist = data.checklist;
         saveAllToStorage();
         render();
         alert('Keepsake data restored successfully!');
       } else {
-        alert('Invalid backup file format.');
+        alert('Invalid backup file.');
       }
-    } catch(err) {
-      alert('Failed to read file.');
-    }
+    } catch { alert('Failed to read file.'); }
   };
   reader.readAsText(file);
 }
 
-function saveAllToStorage() {
-  localStorage.setItem(STORAGE_ENTRIES, JSON.stringify(entries));
-  localStorage.setItem(STORAGE_SCORE, score.toString());
-  localStorage.setItem(STORAGE_STREAK, streak.toString());
-  localStorage.setItem(STORAGE_HANDLED, JSON.stringify(rememberedIds));
+// Checklist Functions
+function toggleChecklistModal() {
+  const modal = document.getElementById('checklistModal');
+  modal.classList.toggle('hidden');
+  renderChecklist();
+}
+
+function renderChecklist() {
+  const container = document.getElementById('checklistItems');
+  container.innerHTML = checklist.map(item => `
+    <label class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-[#1B382D]/50 cursor-pointer border border-[#1B382D]">
+      <input type="checkbox" onchange="toggleChecklistItem('${item.id}')" ${item.done ? 'checked' : ''} class="rounded text-[#D4AF37] focus:ring-0 w-4 h-4" />
+      <span class="${item.done ? 'line-through text-[#95AFA5]' : 'text-[#F4F1E1]'} text-xs select-none">${item.text}</span>
+    </label>
+  `).join('');
+}
+
+function toggleChecklistItem(id) {
+  checklist = checklist.map(x => x.id === id ? { ...x, done: !x.done } : x);
+  saveAllToStorage();
+  renderChecklist();
+}
+
+function resetChecklist() {
+  checklist = JSON.parse(JSON.stringify(DEFAULT_CHECKLIST));
+  saveAllToStorage();
+  renderChecklist();
 }
 
 function toggleAboutModal() {
@@ -387,10 +461,10 @@ function scrollToForm() {
 function updateScore(points) {
   score = Math.max(0, score + points);
   document.getElementById('scoreValue').textContent = score;
-  let tier = "Sleeping on Sofa", tierColor = "#D94848", tierBg = "#2A1616";
-  if (score >= 300) { tier = "Mahabali Level"; tierColor = "#D4AF37"; tierBg = "#1a382d"; }
-  else if (score >= 100) { tier = "Good Husband"; tierColor = "#F9E596"; tierBg = "#1a382d"; }
-  else if (score >= 50) { tier = "Just Escaped"; tierColor = "#A3B8B0"; tierBg = "#122921"; }
+  let tier = "Sleeping on Sofa", tierColor = "#E05252", tierBg = "#261212";
+  if (score >= 300) { tier = "Mahabali Level"; tierColor = "#D4AF37"; tierBg = "#122E24"; }
+  else if (score >= 100) { tier = "Good Husband"; tierColor = "#F9E596"; tierBg = "#122E24"; }
+  else if (score >= 50) { tier = "Just Escaped"; tierColor = "#95AFA5"; tierBg = "#0F231C"; }
   
   const tierEl = document.getElementById('scoreTier');
   tierEl.textContent = tier;
@@ -423,8 +497,8 @@ function toggleHandled(id) {
 function setKind(kind) {
   currentKind = kind;
   const isDate = kind === 'date';
-  document.getElementById('kindDate').className = isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
-  document.getElementById('kindReminder').className = !isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#1a382d] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1E3A2F] text-[#A3B8B0] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
+  document.getElementById('kindDate').className = isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#122E24] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1B382D] text-[#95AFA5] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
+  document.getElementById('kindReminder').className = !isDate ? "flex-1 py-2.5 border border-[#D4AF37] bg-[#122E24] text-[#D4AF37] text-sm font-semibold rounded-lg shadow-sm" : "flex-1 py-2.5 border border-[#1B382D] text-[#95AFA5] hover:text-[#F4F1E1] text-sm font-semibold rounded-lg";
   document.getElementById('dateOnlyFields').classList.toggle('hidden', !isDate);
   document.getElementById('starField').classList.toggle('hidden', !isDate);
   document.getElementById('timeField').classList.toggle('hidden', isDate);
@@ -436,7 +510,7 @@ function setFilter(filter) {
   currentFilter = filter;
   ['all', 'date', 'reminder'].forEach((t, i) => {
     const btn = document.getElementById(['tabAll', 'tabDates', 'tabReminders'][i]);
-    btn.className = (t === filter) ? "text-center py-2.5 text-sm font-semibold rounded-lg shadow-sm bg-[#D4AF37] text-[#0A1C16]" : "text-center py-2.5 text-sm font-semibold rounded-lg text-[#A3B8B0] hover:text-[#F4F1E1]";
+    btn.className = (t === filter) ? "text-center py-2.5 text-sm font-semibold rounded-lg shadow-sm bg-[#D4AF37] text-[#071510]" : "text-center py-2.5 text-sm font-semibold rounded-lg text-[#95AFA5] hover:text-[#F4F1E1]";
   });
   render();
 }
@@ -471,7 +545,25 @@ function openWhatsAppShare(text) {
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
 
-async function fetchGeminiAI(prompt) {
+function openFamilyGroupBroadcast(id) {
+  const e = entries.find(x => x.id === id);
+  if (!e) return;
+  const days = getDaysUntil(e.date, e.kind === 'date');
+  const msg = `📢 *Family Reminder from Keepsake:*\n${e.name}'s ${e.type} is coming up in ${days} days (${formatDisplayDate(e.date)})!\n\nWho is coordinating gifts or cake? Let's plan early! 🌸`;
+  openWhatsAppShare(msg);
+}
+
+// AI Message Drafting with selectable tone
+async function generateToneWish(id) {
+  const e = entries.find(x => x.id === id);
+  const tone = document.getElementById(`tone-select-${id}`).value;
+  const target = document.getElementById(`msg-text-${id}`);
+  target.innerHTML = `<span class="italic text-[#95AFA5] animate-pulse">✨ Drafting in ${tone} tone...</span>`;
+
+  const prompt = `Write a short WhatsApp greeting from a Malayali family member to ${e.name} (${e.relation}) celebrating their ${e.type}.
+  Tone style: "${tone}" (Respectful=formal & blessings, Casual=warm Malayalam English mix, Teasing=playful humor).
+  Context notes: "${e.notes || ''}". Return only the final greeting message.`;
+
   try {
     const res = await fetch('/api/gemini', {
       method: 'POST',
@@ -479,8 +571,20 @@ async function fetchGeminiAI(prompt) {
       body: JSON.stringify({ prompt })
     });
     const data = await res.json();
-    return data?.text || null;
-  } catch(e) { return null; }
+    if (data?.text) {
+      target.textContent = data.text.trim();
+      return;
+    }
+  } catch {}
+
+  // Fallbacks
+  if (tone === "Respectful") {
+    target.textContent = `Wishing you a truly blessed and happy ${e.type}, ${e.name}! May God shower good health, happiness, and peace in the year ahead. 🙏`;
+  } else if (tone === "Teasing") {
+    target.textContent = `Happy ${e.type} ${e.name}! Another year wiser, though we are still waiting on that treat. Have a great day! 🎉😄`;
+  } else {
+    target.textContent = `Wishing you a wonderful ${e.type} ${e.name}! Have the best day filled with laughter, payasam, and good times! ❤️`;
+  }
 }
 
 async function triggerAIGifts(id) {
@@ -494,84 +598,45 @@ async function triggerAIGifts(id) {
   }
 
   box.classList.remove('hidden');
-  list.innerHTML = `<li class="text-sm text-[#A3B8B0] italic animate-pulse">✨ Suggesting gift ideas...</li>`;
+  list.innerHTML = `<li class="text-xs text-[#95AFA5] italic animate-pulse">✨ Suggesting gift ideas...</li>`;
   
   const prompt = `Provide 3 distinct, creative Kerala gift ideas for ${e.name} (${e.relation}), celebrating ${e.type}. Budget: ₹${e.budget || 'Open'}. Notes: "${e.notes || 'None'}". Star: ${e.star || 'None'}. Return 3 concise bullet points tailored specifically to this person/festival.`;
-  const aiText = await fetchGeminiAI(prompt);
   
-  if (aiText) {
-    const items = aiText.split('\n').filter(line => line.trim().length > 0).slice(0, 3);
-    list.innerHTML = items.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
-    return;
-  }
+  try {
+    const res = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    if (data?.text) {
+      const items = data.text.split('\n').filter(line => line.trim().length > 0).slice(0, 3);
+      list.innerHTML = items.map(i => `<li class="text-xs text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i.replace(/^[\*\-\d\.]+\s*/, '')}</li>`).join('');
+      return;
+    }
+  } catch {}
 
-  // Tailored Kerala Festival Fallback Map
+  // Cultural Fallback Engine
   const nameLower = e.name.toLowerCase();
-  let fallback = [];
+  let fallback = [
+    "Handcrafted brass Nilavilakku or Kerala mural piece.",
+    "Assorted traditional bakery hamper (Halwa, Banana chips, Achappam).",
+    "Curated dining experience or weekend resort getaway."
+  ];
 
   if (nameLower.includes('christmas')) {
-    fallback = [
-      "Rich plum cake box paired with assorted dried fruits.",
-      "Traditional hanging paper Christmas star and festive fairy lights.",
-      "Custom hamper with wine, homemade cookies, and plum pudding."
-    ];
+    fallback = ["Rich plum cake box paired with assorted dried fruits.", "Traditional hanging paper Christmas star and festive fairy lights.", "Custom hamper with wine, homemade cookies, and plum pudding."];
   } else if (nameLower.includes('onam')) {
-    fallback = [
-      "Authentic Balaramapuram handloom Set Mundu or Kasavu saree.",
-      "Pre-booked Grand Onasadhya feast for the entire household.",
-      "Handcrafted brass Nilavilakku or miniature Aranmula Kannadi."
-    ];
+    fallback = ["Authentic Balaramapuram handloom Set Mundu or Kasavu saree.", "Pre-booked Grand Onasadhya feast for the entire household.", "Handcrafted brass Nilavilakku or miniature Aranmula Kannadi."];
   } else if (nameLower.includes('vishu')) {
-    fallback = [
-      "Traditional brass Uruli or Bell-metal mirror for Vishukani.",
-      "Fresh crisp currency notes ready in envelopes for Vishukkaineettam.",
-      "Assorted authentic Palada and Parippu Payasam hamper."
-    ];
+    fallback = ["Traditional brass Uruli or Bell-metal mirror for Vishukani.", "Fresh crisp currency notes ready in envelopes for Vishukkaineettam.", "Assorted authentic Palada and Parippu Payasam hamper."];
   } else if (nameLower.includes('eid')) {
-    fallback = [
-      "Premium imported dates, dry fruits, and gourmet Halwa hamper.",
-      "Fine traditional Kurta or embroidered festive attire.",
-      "Handcrafted Attar (perfume) and premium sweet gift box."
-    ];
+    fallback = ["Premium imported dates, dry fruits, and gourmet Halwa hamper.", "Fine traditional Kurta or embroidered festive attire.", "Handcrafted Attar (perfume) and premium sweet gift box."];
   } else if (nameLower.includes('easter')) {
-    fallback = [
-      "Gourmet Easter eggs, chocolate hampers, and hot cross buns.",
-      "Handcrafted table linens and festive breakfast gift basket.",
-      "Pre-ordered Easter Sunday breakfast feast (Appam, Stew, Roast)."
-    ];
-  } else if (nameLower.includes('attukal') || nameLower.includes('pongala')) {
-    fallback = [
-      "Traditional unglazed terracotta earthen pot and ladle set.",
-      "Organic Marayoor jaggery, pure ghee, and pachari combo kit.",
-      "Set of Kerala cotton mundu or towel essentials for Pongala day."
-    ];
-  } else if (nameLower.includes('shivaratri')) {
-    fallback = [
-      "Pooja brassware kit with Bilva leaf thali and camphor lamp.",
-      "Fresh fruit and fasting essentials basket (tender coconut, dry fruits).",
-      "Traditional Rudraksha mala or sacred brass bell."
-    ];
-  } else if (nameLower.includes('pooram')) {
-    fallback = [
-      "Souvenir miniature Pooram caparison (Nettipattam) wall hanging.",
-      "Traditional handloom Kurta or cotton dhoti suitable for the temple crowd.",
-      "High-fidelity festival recording / traditional Chenda Melam memorabilia."
-    ];
-  } else if (nameLower.includes('piravi')) {
-    fallback = [
-      "Authentic Kerala Kasavu Neriyathu or double Mundu.",
-      "Collection of classic Malayalam literature or poetry books.",
-      "Traditional Kathakali wood-carved wall mask or mural artifact."
-    ];
-  } else {
-    fallback = [
-      "Handcrafted brass Nilavilakku or Kerala mural piece.",
-      "Assorted traditional bakery hamper (Halwa, Banana chips, Achappam).",
-      "Curated dining experience or weekend resort getaway."
-    ];
+    fallback = ["Gourmet Easter eggs, chocolate hampers, and hot cross buns.", "Handcrafted table linens and festive breakfast gift basket.", "Pre-ordered Easter Sunday breakfast feast (Appam, Stew, Roast)."];
   }
 
-  list.innerHTML = fallback.map(i => `<li class="text-sm text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i}</li>`).join('');
+  list.innerHTML = fallback.map(i => `<li class="text-xs text-[#F4F1E1] flex gap-2 before:content-['✦'] before:text-[#D4AF37] leading-relaxed mb-2">${i}</li>`).join('');
 }
 
 function renderPanic(urgentEntries) {
@@ -582,22 +647,28 @@ function renderPanic(urgentEntries) {
   const isToday = getDaysUntil(e.date, e.kind === 'date') === 0;
   
   zone.innerHTML = `
-    <div class="p-6 rounded-xl border border-[#D94848] bg-[#2A1616] fade-in shadow-lg mb-6">
+    <div class="p-6 rounded-xl border border-[#E05252] bg-[#1F0E0E] fade-in shadow-xl mb-6">
       <div class="flex items-start gap-4">
-        <div class="text-[#D94848] mt-1 bg-[#4A1616] p-2 rounded-full shrink-0">
+        <div class="text-[#E05252] mt-1 bg-[#3A1414] p-2.5 rounded-xl shrink-0">
           <svg width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,104v40a8,8,0,0,0,16,0V104a8,8,0,0,0-16,0Zm20,84a12,12,0,1,1-12-12A12,12,0,0,1,140,188Z"></path></svg>
         </div>
         <div class="flex-1">
-          <h3 class="serif text-[#F4F1E1] text-2xl font-semibold mb-1">${e.name} — ${e.type} is ${isToday ? 'Today!' : 'Tomorrow!'}</h3>
-          <p class="text-[#D94848] text-sm mb-4">Urgent Kerala Reminder: Don't panic, take action now.</p>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] uppercase font-bold tracking-widest bg-[#3A1414] text-[#E05252] px-2 py-0.5 rounded">Emergency Mode</span>
+          </div>
+          <h3 class="serif text-[#F4F1E1] text-2xl font-semibold mt-1 mb-1">${e.name} — ${e.type} is ${isToday ? 'Today!' : 'Tomorrow!'}</h3>
+          <p class="text-[#E05252] text-xs mb-4">Don't panic. Direct delivery and coordination options are ready below.</p>
           
-          <div class="flex flex-wrap gap-2 items-center mt-3">
-            <button onclick="toggleHandled('${e.id}')" class="px-4 py-2 ${rememberedIds.includes(e.id) ? 'border border-[#3fa34d]/50 text-[#3fa34d] bg-[#3fa34d]/10' : 'bg-[#F4F1E1] text-[#0A1C16]'} text-xs font-bold rounded-lg shadow-sm">
+          <div class="flex flex-wrap gap-2 items-center">
+            <button onclick="toggleHandled('${e.id}')" class="px-3.5 py-2 ${rememberedIds.includes(e.id) ? 'border border-[#3fa34d]/50 text-[#3fa34d] bg-[#3fa34d]/10' : 'bg-[#F4F1E1] text-[#071510]'} text-xs font-bold rounded-lg shadow-sm">
               ${rememberedIds.includes(e.id) ? 'Handled ✓ (Click to Undo)' : 'Mark Handled'}
             </button>
-            <button onclick="openWhatsAppShare('Hey! Wishing you a wonderful ${e.type}! 🌸')" class="px-4 py-2 bg-[#25D366] text-white text-xs font-bold rounded-lg shadow-sm flex items-center gap-1.5">
-              💬 WhatsApp
+            <button onclick="openFamilyGroupBroadcast('${e.id}')" class="px-3.5 py-2 bg-[#122E24] border border-[#D4AF37] text-[#D4AF37] text-xs font-bold rounded-lg hover:bg-[#1A3D30]">
+              📢 Family WhatsApp Group
             </button>
+            <a href="https://www.google.com/search?q=cake+and+flowers+instant+delivery+near+me+Kerala" target="_blank" class="px-3.5 py-2 bg-[#2E1616] border border-[#E05252]/50 text-[#F4F1E1] text-xs font-medium rounded-lg hover:bg-[#3E1A1A]">
+              🎂 Order Cake / Flowers
+            </a>
           </div>
         </div>
       </div>
@@ -616,19 +687,21 @@ function render() {
 
   if (allUpcoming.length > 0) {
     document.getElementById('heroNum').textContent = getDaysUntil(allUpcoming[0].date, true);
-    document.getElementById('heroText').innerHTML = `<h2 class="serif text-2xl text-[#F4F1E1] mb-1.5">${allUpcoming[0].name}</h2><p class="text-sm text-[#A3B8B0]">${allUpcoming[0].type} · ${formatDisplayDate(allUpcoming[0].date)}</p>`;
+    document.getElementById('heroText').innerHTML = `<h2 class="serif text-2xl text-[#F4F1E1] mb-1">${allUpcoming[0].name}</h2><p class="text-xs text-[#95AFA5]">${allUpcoming[0].type} · ${formatDisplayDate(allUpcoming[0].date)}</p>`;
   } else {
     document.getElementById('heroNum').textContent = "—";
     document.getElementById('heroText').innerHTML = `<p class="text-[#F9E596] italic text-sm">Add an event below to see what's coming up.</p>`;
   }
+
+  calculateBudgetSummary();
 
   if (visible.length === 0) {
     list.innerHTML = `
       <div class="glass-card col-span-full p-12 text-center flex flex-col items-center justify-center gap-3">
         <div class="text-4xl mb-1">🌴</div>
         <h3 class="serif text-lg text-[#F4F1E1]">No events found</h3>
-        <p class="text-xs text-[#A3B8B0] max-w-sm">Tap the "Add Kerala Festivals" button above to populate state holidays, or add custom dates below.</p>
-        <button onclick="syncKeralaPack()" class="mt-2 text-xs bg-[#1a382d] text-[#D4AF37] border border-[#D4AF37]/40 px-4 py-2 rounded-lg font-semibold hover:bg-[#2A4A3F] transition-all">
+        <p class="text-xs text-[#95AFA5] max-w-sm">Tap the "Add Kerala Festivals" button above to populate state holidays, or add custom dates below.</p>
+        <button onclick="syncKeralaPack()" class="mt-2 text-xs bg-[#122E24] text-[#D4AF37] border border-[#D4AF37]/40 px-4 py-2 rounded-lg font-semibold hover:bg-[#1A3D30] transition-all">
           Load Kerala Pack
         </button>
       </div>`;
@@ -637,7 +710,7 @@ function render() {
 
   list.innerHTML = visible.map(e => {
     const days = getDaysUntil(e.date, e.kind === 'date');
-    const pillBg = days <= 14 ? 'bg-[#3A1E1E] text-[#D94848]' : 'bg-[#1a382d] text-[#A3B8B0]';
+    const pillBg = days <= 14 ? 'bg-[#331414] text-[#E05252]' : 'bg-[#122E24] text-[#95AFA5]';
     const dayLabel = days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 0 ? `${Math.abs(days)}d ago` : `${days} days to go`;
     const isHandled = rememberedIds.includes(e.id);
 
@@ -646,7 +719,7 @@ function render() {
         <div class="flex justify-between items-start gap-3 mb-2">
           <div>
             <h3 class="serif text-xl font-medium text-[#F4F1E1]">${e.name}</h3>
-            <p class="text-[13px] text-[#A3B8B0] mt-1">
+            <p class="text-xs text-[#95AFA5] mt-1">
               ${e.kind === 'date' ? `${e.relation} · ${e.type} <br>` : ''}
               ${formatDisplayDate(e.date)}
               ${e.star ? ` · <span class="text-[#D4AF37] font-medium">★ ${e.star}</span>` : ''}
@@ -655,29 +728,46 @@ function render() {
           <span class="shrink-0 text-[10px] font-bold uppercase px-2.5 py-1 rounded ${pillBg}">${dayLabel}</span>
         </div>
 
-        ${e.budget ? `<div class="text-[11px] text-[#D4AF37] font-semibold mb-2">Budget: ₹${Number(e.budget).toLocaleString('en-IN')}</div>` : ''}
-        ${e.notes ? `<div class="mb-4 text-sm text-[#A3B8B0] bg-[#0A1C16]/50 p-3 rounded-lg border border-[#1E3A2F] italic border-l-2 border-l-[#D4AF37] flex-1">"${e.notes}"</div>` : '<div class="flex-1"></div>'}
+        ${e.budget ? `<div class="text-xs text-[#D4AF37] font-medium mb-2 flex items-center gap-1.5"><span>💰 Budget:</span> <span>₹${Number(e.budget).toLocaleString('en-IN')}</span></div>` : ''}
+        ${e.notes ? `<div class="mb-4 text-xs text-[#95AFA5] bg-[#071510]/60 p-3 rounded-lg border border-[#1B382D] italic border-l-2 border-l-[#D4AF37] flex-1">"${e.notes}"</div>` : '<div class="flex-1"></div>'}
 
-        <div class="pt-4 mt-auto border-t border-[#1E3A2F]/50 flex flex-wrap gap-2 items-center justify-between">
+        <div class="pt-4 mt-auto border-t border-[#1B382D]/60 flex flex-wrap gap-2 items-center justify-between">
           <div class="flex gap-1.5 items-center flex-wrap">
-            <button onclick="toggleHandled('${e.id}')" title="${isHandled ? 'Click to undo' : 'Mark handled'}" class="text-xs font-bold px-2 py-1 rounded transition-colors ${isHandled ? 'border border-[#3fa34d]/50 bg-[#3fa34d]/10 text-[#3fa34d] hover:bg-[#3fa34d]/20' : 'text-[#A3B8B0] hover:text-[#F4F1E1] border border-[#1E3A2F]'}">
+            <button onclick="toggleHandled('${e.id}')" title="${isHandled ? 'Click to undo' : 'Mark handled'}" class="text-xs font-bold px-2 py-1 rounded transition-colors ${isHandled ? 'border border-[#3fa34d]/50 bg-[#3fa34d]/10 text-[#3fa34d] hover:bg-[#3fa34d]/20' : 'text-[#95AFA5] hover:text-[#F4F1E1] border border-[#1B382D]'}">
               ${isHandled ? 'Handled ✓' : 'Handled'}
             </button>
-            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#0A1C16] bg-[#D4AF37] hover:bg-[#F9E596] px-2.5 py-1 rounded-lg transition-transform active:scale-95">✨ Gifts</button>` : ''}
-            <button onclick="openGoogleCalendar('${e.id}')" title="Add to Google Calendar" class="text-xs text-[#A3B8B0] hover:text-[#D4AF37] border border-[#1E3A2F] px-2 py-1 rounded">📅 Cal</button>
-            <button onclick="openWhatsAppShare('Hey ${e.name}! Just thinking of you and your upcoming ${e.type} 🌸')" title="Share to WhatsApp" class="text-xs text-[#25D366] border border-[#1E3A2F] px-2 py-1 rounded">💬</button>
+            ${e.kind === 'date' ? `<button onclick="triggerAIGifts('${e.id}')" class="text-xs font-bold text-[#071510] bg-[#D4AF37] hover:bg-[#F9E596] px-2.5 py-1 rounded-lg active:scale-95 transition-transform">✨ Gifts</button>` : ''}
+            <button onclick="openGoogleCalendar('${e.id}')" title="Add to Google Calendar" class="text-xs text-[#95AFA5] hover:text-[#D4AF37] border border-[#1B382D] px-2 py-1 rounded">📅 Cal</button>
+            <button onclick="document.getElementById('wish-panel-${e.id}').classList.toggle('hidden')" title="Draft Greeting Wish" class="text-xs text-[#25D366] border border-[#1B382D] px-2 py-1 rounded">💬 Wish</button>
           </div>
           
           <div class="flex gap-2">
-            <button onclick="startEdit('${e.id}')" class="text-[11px] font-semibold uppercase text-[#A3B8B0] hover:text-[#F4F1E1]">Edit</button>
-            <button onclick="deleteEntry('${e.id}')" class="text-[11px] font-semibold uppercase text-[#D94848]">Del</button>
+            <button onclick="startEdit('${e.id}')" class="text-[11px] font-semibold uppercase text-[#95AFA5] hover:text-[#F4F1E1]">Edit</button>
+            <button onclick="deleteEntry('${e.id}')" class="text-[11px] font-semibold uppercase text-[#E05252]">Del</button>
           </div>
         </div>
 
-        <div id="ai-ideas-${e.id}" class="hidden mt-4 pt-4 border-t border-[#1E3A2F] bg-[#0A1C16] -mx-5 -mb-5 px-5 pb-5 rounded-b-2xl">
-          <div class="flex justify-between items-center mb-2">
-            <p class="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37]">Suggestions</p>
-            <button onclick="document.getElementById('ai-ideas-${e.id}').classList.add('hidden')" class="text-xs text-[#A3B8B0] hover:text-[#F4F1E1]">✕</button>
+        <div id="wish-panel-${e.id}" class="hidden mt-3 pt-3 border-t border-[#1B382D] bg-[#071510] -mx-5 -mb-5 px-5 pb-5 rounded-b-2xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] uppercase font-bold text-[#D4AF37]">Tone Customizer</span>
+            <button onclick="document.getElementById('wish-panel-${e.id}').classList.add('hidden')" class="text-xs text-[#95AFA5]">✕</button>
+          </div>
+          <div class="flex gap-2 mb-2">
+            <select id="tone-select-${e.id}" class="text-xs rounded px-2 py-1 flex-1">
+              <option value="Casual">Casual / Nadan</option>
+              <option value="Respectful">Respectful / Elders</option>
+              <option value="Teasing">Playful / Teasing</option>
+            </select>
+            <button onclick="generateToneWish('${e.id}')" class="text-xs bg-[#122E24] border border-[#D4AF37] text-[#D4AF37] px-2.5 py-1 rounded font-semibold hover:bg-[#1A3D30]">Generate</button>
+          </div>
+          <p id="msg-text-${e.id}" class="text-xs text-[#95AFA5] italic mb-3">Select tone and click Generate.</p>
+          <button onclick="openWhatsAppShare(document.getElementById('msg-text-${e.id}').textContent)" class="text-xs text-[#25D366] font-semibold hover:underline flex items-center gap-1">Send on WhatsApp →</button>
+        </div>
+
+        <div id="ai-ideas-${e.id}" class="hidden mt-4 pt-4 border-t border-[#1B382D] bg-[#071510] -mx-5 -mb-5 px-5 pb-5 rounded-b-2xl">
+          <div class="flex justify-between items-center mb-2.5">
+            <p class="text-[10px] uppercase font-bold tracking-widest text-[#D4AF37]">Curated Suggestions</p>
+            <button onclick="document.getElementById('ai-ideas-${e.id}').classList.add('hidden')" class="text-xs text-[#95AFA5] hover:text-[#F4F1E1]">✕</button>
           </div>
           <ul id="ai-list-${e.id}" class="space-y-2"></ul>
         </div>
@@ -754,6 +844,7 @@ document.getElementById('addForm').addEventListener('submit', (ev) => {
 document.getElementById('scoreValue').textContent = score;
 document.getElementById('streakValue').textContent = streak;
 updateScore(0);
+calculateBudgetSummary();
 render();
 </script>
 </body>
