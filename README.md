@@ -9,7 +9,7 @@
 - **Panic Alert System:** Highlights urgent events happening today or tomorrow so you can act quickly.
 - **Secure AI Integration:** Uses Vercel Serverless Functions (/api/gemini) to securely query Google's Gemini 1.5 Flash model for custom gift ideas and WhatsApp greeting drafts without exposing API keys to the browser..
 - **Zero Framework Bloat:** Built with plain HTML, Tailwind CSS, and vanilla JavaScript.
-- ** Website URL:** keepsakekerala.vercel.app
+- **Website URL:** keepsakekerala.vercel.app
 
 ## Project Structure ##
 
