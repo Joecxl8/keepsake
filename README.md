@@ -1,4 +1,4 @@
-# Keepsake (ഓർമ്മപ്പെട്ടി — Ormappetti)
+# Keepsake (ഓർമ്മപ്പെട്ടി — Ormappetti) v 1.1
 
 **Keepsake** is a culturally-rooted, single-file web application designed to help you stay ahead of special dates, family birthdays, and Kerala festivals without the last-minute scramble. Featuring a traditional Kasavu-and-brass aesthetic, it combines gamified accountability, festive checklists, emergency action banners, and Google Gemini-powered gifting and greeting suggestions.
 
